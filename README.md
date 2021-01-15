@@ -6,6 +6,6 @@
 
 ---
 
-- 강은진 []()
-- 김연구 []()
+- 강은진 [ejinaaa 깃허브](https://github.com/ejinaaa)
+- 김연구 [yg-0103 깃허브](https://github.com/yg-0103)
 - 김효성 [hyorard-b 깃허브](https://github.com/hyorard-b)
