@@ -1,0 +1,160 @@
+$lightgrey: rgba(239, 239, 239, 1);
+$width: 480px;
+
+.task-container {
+  width: $width;
+  margin: 20px auto;
+  position: relative;
+  .task-heading {
+    padding-bottom: 14px;
+    color: #fff;
+    font: {
+      size: 18px;
+      weight: 700;
+    };
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  }
+  .clear-finished-tasks-btn {
+    width: 30px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.tasks {
+  width: $width;
+  margin-top: 20px;
+  
+  .task {
+    padding: 15px 10px 15px 20px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    // .active-line {
+    //   // display: block;
+    //   width: 3px;
+    //   background-color: #000;
+    // }
+
+    // &.active {
+    //   .active-line {
+    //     display: block;
+    //   }
+    // }
+
+    .checkbox {
+      display: none;
+    }
+
+    .task-subject {
+      color: rgba(85, 85, 85, 1);
+      font-weight: 700;
+      font-size: 14px;
+
+      .check-icon {
+        // background-color: #fff;
+        color: rgba(223, 223, 223, 1);
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.add-task-btn {
+  display: block;
+  width: $width;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.6);
+
+  &.active {
+    display: none;
+  }
+}
+
+.add-task-container {
+  display: none;
+  margin-top: 20px;
+  
+  &.active {
+    display: block;
+  }
+
+  .add-task {
+    width: $width;
+    margin-top: 20px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 5px 5px 0 0;
+
+    .input-task {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 22px;
+    }
+
+    .set-est {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    
+    .est-container {
+      .input-est-num {
+        width: 50px;
+        margin-top: 10px;
+        padding: 5px;
+        background-color: $lightgrey;
+        border: none;
+        border-radius: 2px;
+        outline: none;
+      }
+
+      .up-btn, .down-btn {
+        background-color: #fff;
+        border: 2px solid $lightgrey;
+        border-radius: 2px;
+        color: rgba(85, 85, 85, 1);
+      }
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+    width: $width;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: $lightgrey;
+    border-radius: 0 0 5px 5px;
+
+    .cancel-btn, .save-btn {
+      padding: 5px 10px;
+      border: none;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .cancel-btn {
+      background-color: rgba(171, 171, 171, 0);
+      color: rgba(136, 136, 136, 1);
+    }
+
+    .save-btn {
+      background: rgba(171, 171, 171, 1);
+      color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px;
+      border-radius: 2px;
+    }
+  }
+}
