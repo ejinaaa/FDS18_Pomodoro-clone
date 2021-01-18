@@ -11,26 +11,28 @@ export default function task() {
   let tasks = [];
 
   // Functions
-  const getTemplate = task => {
-    return `<li id="${task.id}" class="task">
-    <input type="checkbox" id="ck-${task.id}" class="checkbox" ${task.completed? 'checked' : ''}/>
-    <label for="ck-${task.id}" class="task-subject">
-      <i class="fas fa-check-circle check-icon"></i>
-      ${task.content}
-    </label>
-    <span class="est-counter">
-      <span class="est-done">${task.leftEst}</span>
-      /${task.allEst}
-    </span>
-    <button class="remove-task-btn">
-      <i class="fas fa-minus-circle remove-icon"></i>
-    </button>
-  </li>`
-  };
-  
-  const render = () => {
-    $tasks.innerHTML = tasks.map(task => getTemplate(task)).join('');
-  };
+  const render = (() => {
+    const getTemplate = task => {
+      return `<li id="${task.id}" class="task">
+      <input type="checkbox" id="ck-${task.id}" class="checkbox" ${task.completed? 'checked' : ''}/>
+      <label for="ck-${task.id}" class="task-subject">
+        <i class="fas fa-check-circle check-icon"></i>
+        ${task.content}
+      </label>
+      <span class="est-counter">
+        <span class="est-done">${task.leftEst}</span>
+        /${task.allEst}
+      </span>
+      <button class="remove-task-btn">
+        <i class="fas fa-minus-circle remove-icon"></i>
+      </button>
+    </li>`
+    };
+    
+    return () => {
+      $tasks.innerHTML = tasks.map(task => getTemplate(task)).join('')
+    };
+  })();
 
   const addTask = (() => {
     const generateId = () => {
@@ -41,6 +43,10 @@ export default function task() {
       tasks = [{id: generateId(), content: $inputTask.value, allEst: +$inputEstNum.value, leftEst: 0, completed: false}, ...tasks];
     };
   })();
+
+  const removeTask = targetId => {
+    tasks = tasks.filter(({ id }) => +targetId !== id);
+  };
 
   // Events
   $addTaskBtn.addEventListener('click', () => {
@@ -62,5 +68,10 @@ export default function task() {
     $addTaskContainer.classList.remove('active');
     
     $inputTask.value = '';
+  });
+
+  $tasks.addEventListener('click', e => {
+    if (e.target.matches('.remove-icon')) removeTask(e.target.parentNode.parentNode.id);
+    render();
   });
 };
