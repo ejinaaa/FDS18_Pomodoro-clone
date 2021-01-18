@@ -6,7 +6,7 @@ export default function time() {
   let second;
   let stopCount = 0;
 
-  function countDown(min = 1, sec = 0) {
+  const countDown = (min = 25, sec = 0) => {
     minute = min;
     second = sec;
     const $time = document.querySelector('.main__time-set');
@@ -24,10 +24,9 @@ export default function time() {
         second < 10 ? '0' + second : second
       }`;
     }, 1000);
-  }
-  $startBtn.addEventListener('click', (e) => {
-    $startBtn.classList.toggle('active');
-    countDown(minute, second);
+  };
+
+  const stopTimer = () => {
     if (stopCount) {
       clearInterval(timerId);
       clearInterval(timerId - 1);
@@ -36,5 +35,15 @@ export default function time() {
     if (stopCount === 2) {
       stopCount = 0;
     }
+  };
+
+  const setBtnText = () => {
+    $startBtn.innerHTML = $startBtn.matches('.active') ? 'STOP' : 'START';
+  };
+  $startBtn.addEventListener('click', (e) => {
+    $startBtn.classList.toggle('active');
+    setBtnText();
+    countDown(minute, second);
+    stopTimer();
   });
 }
