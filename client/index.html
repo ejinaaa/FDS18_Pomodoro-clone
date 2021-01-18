@@ -44,6 +44,73 @@
           </li>
         </ul>
       </div>
+      <div class="settings-modal__container"> 
+        <form action="#" method="GET" class="modal-form">
+          <span class="modal-form__heading">TIMER SETTING</span>
+          <div class="modal-form-time__container">
+            <span class="modal-form-time__heading">Time (minutes)</span>
+            <ul class="modal-form-time__list">
+              <li>
+                <div class="time-pomodoro__container">
+                  <label for="">Pomodoro</label>
+                  <input type="number" value="25">
+                </div>
+              </li>
+              <li>
+                <div class="time-short-break__container">
+                  <label for="">Short Break</label>
+                  <input type="number" value="5">
+                </div>
+              </li>
+              <li>
+                <div class="time-long-break__container">
+                  <label for="">Long Break</label>
+                  <input type="number" value="15">
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-form-auto-start__container">
+            <span class="modal-form-auto-start__heading">
+              Auto start next round?
+            </span>
+            <input type="checkbox" unchecked>
+          </div>
+          <div class="modal-form-sound-volume__container">
+            <span class="modal-form-sound-volume__heading">
+              Sound Volume
+            </span>
+            <input type="range">
+          </div>
+          <div class="modal-form-long-interval__container">
+            <span class="modal-form-long-interval__heading">
+              Long Break Interval
+            </span>
+            <input type="number" value="4">
+          </div>
+          <div class="modal-form-dark-mode__container">
+            <span class="modal-form-dark-mode-heading">
+              Dark Mode When Running
+            </span>
+            <input type="checkbox">
+          </div>
+          <div class="modal-form-notific__container">
+            <span class="modal-form-notific__heading">
+              Notification
+            </span>
+            <select name="" id="">
+              <option value="">Last</option>
+              <option value="">Every</option>
+            </select>
+            <input type="number" value="5">
+          </div>
+          <a href="#" class="settings-modal__cancel-btn">
+            <i class="fas fa-times"></i>
+          </a> 
+          <a href="" class="settings-modal__submit-btn">OK</a>
+        </form>
+        
+      </div>
     </div>
   </header>
   <main>
