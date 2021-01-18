@@ -8,6 +8,7 @@ export default function task() {
   const $tasks = document.querySelector('.tasks');
   const $inputEstNum = document.querySelector('.input-est-num');
   const $removeCompletedTasksBtn = document.querySelector('.remove-completed-tasks-btn');
+  const $currentProgress = document.querySelector('.current-progress');
 
   let tasks = [];
 
@@ -31,7 +32,9 @@ export default function task() {
     };
     
     return () => {
-      $tasks.innerHTML = tasks.map(task => getTemplate(task)).join('')
+      $tasks.innerHTML = tasks.map(task => getTemplate(task)).join('');
+      if (tasks.length) $currentProgress.classList.add('active');
+      else $currentProgress.classList.remove('active')
     };
   })();
 
