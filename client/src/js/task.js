@@ -7,6 +7,7 @@ export default function task() {
   const $saveTaskBtn = document.querySelector('.add-task-container .save-btn');
   const $tasks = document.querySelector('.tasks');
   const $inputEstNum = document.querySelector('.input-est-num');
+  const $removeCompletedTasksBtn = document.querySelector('.remove-completed-tasks-btn');
 
   let tasks = [];
 
@@ -48,6 +49,14 @@ export default function task() {
     tasks = tasks.filter(({ id }) => +targetId !== id);
   };
 
+  const toggleTask = targetId => {
+    tasks = tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: +targetId === +task.id ? !task.completed : task.completed }));
+  };
+
+  const removeCompletedTasks = () => {
+    tasks = tasks.filter(({ completed }) => !completed);
+  };
+
   // Events
   $addTaskBtn.addEventListener('click', () => {
     $addTaskBtn.classList.remove('active');
@@ -72,6 +81,12 @@ export default function task() {
 
   $tasks.addEventListener('click', e => {
     if (e.target.matches('.remove-icon')) removeTask(e.target.parentNode.parentNode.id);
+    if (e.target.matches('.task-subject')) toggleTask(e.target.parentNode.id);
+    render();
+  });
+
+  $removeCompletedTasksBtn.addEventListener('click', () => {
+    removeCompletedTasks();
     render();
   });
 };
