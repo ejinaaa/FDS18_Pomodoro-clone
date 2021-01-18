@@ -41,20 +41,29 @@
       </div>
       <div class="settings-modal__container"> 
         <form action="#" method="GET" class="modal-form">
+          <span class="modal-form__heading">TIMER SETTING</span>
           <div class="modal-form-time__container">
             <span class="modal-form-time__heading">Time (minutes)</span>
-            <div class="time-pomodoro__container">
-              <label for="">Pomodoro</label>
-              <input type="number" value="25">
-            </div>
-            <div class="time-short-break__container">
-              <label for="">Short Break</label>
-              <input type="number" value="5">
-            </div>
-            <div class="time-long-break__container">
-              <label for="">Long Break</label>
-              <input type="number" value="15">
-            </div>
+            <ul class="modal-form-time__list">
+              <li>
+                <div class="time-pomodoro__container">
+                  <label for="">Pomodoro</label>
+                  <input type="number" value="25">
+                </div>
+              </li>
+              <li>
+                <div class="time-short-break__container">
+                  <label for="">Short Break</label>
+                  <input type="number" value="5">
+                </div>
+              </li>
+              <li>
+                <div class="time-long-break__container">
+                  <label for="">Long Break</label>
+                  <input type="number" value="15">
+                </div>
+              </li>
+            </ul>
           </div>
           <div class="modal-form-auto-start__container">
             <span class="modal-form-auto-start__heading">
@@ -90,9 +99,12 @@
             </select>
             <input type="number" value="5">
           </div>
+          <a href="#" class="settings-modal__cancel-btn">
+            <i class="fas fa-times"></i>
+          </a> 
+          <a href="" class="settings-modal__submit-btn">OK</a>
         </form>
-        <a href="" class="settings-modal__submit-btn">OK</a>
-        <a href="#" class="settings-modal__cancel-btn">X</a>
+        
       </div>
     </div>
   </header>
