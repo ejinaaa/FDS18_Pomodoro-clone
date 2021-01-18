@@ -4,15 +4,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link href="./dist/css/style.css" rel="stylesheet">
-  </link>
   <script defer src="./dist/js/bundle.js"></script>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <title>뽀모도로 타이머 클론</title>
 </head>
-
 <body>
-  
+  <header>
+    <div class="header__container container">
+      <h1>
+        <a href="./index.html" class="header__homelink">
+          <i class="fas fa-check-circle"></i>
+          pomofocus
+        </a>
+      </h1>
+      <div class="header__nav">
+        <ul class="nav-items">
+          <li>
+            <a href="" class="nav-btn">
+              <i class="far fa-chart-bar"></i>
+              Report
+            </a>
+          </li>
+          <li>
+            <a href="" class="nav-btn">
+              <i class="fas fa-cog"></i>
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="" class="nav-btn">
+              <i class="fas fa-user-circle"></i>
+              Login
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="main__container">
+      <nav class="main__navigation">
+        <ul class="main__btn-group">
+          <li><button id="pomodoro" type="button">Pomodoro</button></li>
+          <li><button id="short-break" type="button">Short Break</button></li>
+          <li><button id="long-break" type="button">Long Break</button></li>
+        </ul>
+      </nav>
+      <div class="main__time-container">
+        <div class="main__time-set">25 : 00</div>
+        <button class="btn-start">START</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+
+  </footer>
 </body>
 
 </html>
