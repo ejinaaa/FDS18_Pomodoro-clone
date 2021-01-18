@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -43,7 +43,7 @@ module.exports = {
   // https://webpack.js.org/configuration/mode
   mode: 'development',
   plugins: [
-    new CleanWebpackPlugin('bundle.js'), //
-    new MiniCssExtractPlugin({ filename: 'dist/css/style.css' }) //  bundle.js 파일에 컴파일된 css를 포함시키지 말고 별도의 css 파일로 분리해서 하나의 파일로 번들링
+    new CleanWebpackPlugin(), //
+    new MiniCssExtractPlugin({ filename: 'css/style.css' }) //  bundle.js 파일에 컴파일된 css를 포함시키지 말고 별도의 css 파일로 분리해서 하나의 파일로 번들링
   ]
 };
