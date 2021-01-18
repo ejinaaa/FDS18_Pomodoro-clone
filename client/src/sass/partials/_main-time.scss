@@ -1,3 +1,8 @@
+@mixin font($fs, $fw) {
+  font-size: $fs;
+  font-weight: $fw;
+}
+
 button {
   cursor: pointer;
   outline: none;
@@ -5,18 +10,19 @@ button {
 
 body {
   background: rgb(219, 82, 77);
+  font-family: 'Roboto', sans-serif;
 }
 
 .main__container {
   width: 480px;
-  margin: 0 auto;
+  margin: 30px auto;
   background: rgba(255, 255, 255, 0.1);
   padding: 30px;
   border-radius: 10px;
+  box-sizing: border-box;
 
   .main__btn-group {
     display: flex;
-    list-style: none;
     justify-content: center;
     align-items: center;
     padding: 0;
@@ -28,12 +34,7 @@ body {
       height: 30px;
       color: #fff;
       margin-right: 5px;
-
-      font: {
-        size: 16px;
-        weight: 600;
-      }
-
+      @include font(1.6rem, 600);
 
       &.active {
         background: rgba(0, 0, 0, 0.15);
@@ -46,16 +47,13 @@ body {
 .main__time-container {
   display: flex;
   flex-flow: column nowrap;
+  margin: 30px 0;
+  color: #fff;
+  text-align: center;
 
   .main__time-set {
-    font: {
-      size: 120px;
-      weight: 700;
-    }
-
-    margin: 30px 0;
-    color: #fff;
-    text-align: center;
+    @include font(12rem, 700);
+    margin: 15px 0;
   }
 
   .btn-start {
@@ -67,11 +65,7 @@ body {
     border: none;
     height: 60px;
     box-shadow: rgb(235, 235, 235) 0px 6px 0px;
-
-    font: {
-      size: 30px;
-      weight: 700;
-    }
+    @include font(3rem, 700);
 
     &.active {
       box-shadow: none;
