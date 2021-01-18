@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="./dist/css/style.css" rel="stylesheet">
-  </link>
   <script defer src="./dist/js/bundle.js"></script>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -114,7 +113,7 @@
     </div>
   </header>
   <main>
-    <div class="main__container">
+    <section class="main__container">
       <nav class="main__navigation">
         <ul class="main__btn-group">
           <li><button id="pomodoro" class="active" type="button">Pomodoro</button></li>
@@ -126,7 +125,67 @@
         <div class="main__time-set">25:00</div>
         <button class="btn-start">START</button>
       </div>
-    </div>
+    </section>
+    <section class="task-container">
+      <div class="task-heading-container">
+        <h3 class="task-heading">Tasks</h3>
+        <button class="remove-finished-tasks-btn"><i class="fas fa-trash-alt"></i></button>
+      </div>
+      <div class="msg-container active">
+        <h3 class="non-active-msg">Time to Work!</h3>
+        <div class="active-task-container">
+          <p class="active-msg">WORKING ON</p>
+          <p class="active-task">Styling</p>
+        </div>
+      </div>
+      <ul class="tasks">
+        <li class="task active">
+            <input type="checkbox" id="checkbox" class="checkbox">
+            <label for="checkbox" class="task-subject">
+              <i class="fas fa-check-circle check-icon"></i>
+              CSS
+            </label>
+            <span class="est-counter">
+              <span class="est-done">0</span>
+              /1
+            </span>
+            <button class="remove-btn"><i class="fas fa-minus-circle"></i></button>
+        </li>
+      </ul>
+      <button class="add-task-btn ">
+        <i class="fad fa-plus-circle add-icon"></i>
+        Add Task
+      </button>
+      <div class="add-task-container active">
+        <div class="add-task active">
+          <input type="text" class="input-task" placeholder="What are you working on?">
+          <p class="set-est">Est Pomodoros</p>
+          <div class="est-container">
+            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0" step="1"></label>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button class="cancel-btn">Cancel</button>
+          <button class="save-btn">Save</button>
+        </div>
+      </div>
+      <div class="current-progress active">
+        <div class="est">
+          Est:
+          <span class="num">0</span>
+        </div>
+        <div class="act">
+          Act:
+          <span class="num">0</span>
+        </div>
+        <div class="finish-time">
+          Finish at:
+          <span class="num">17:35</span>
+        </div>
+      </div>
+    </section>
   </main>
   <footer>
 
