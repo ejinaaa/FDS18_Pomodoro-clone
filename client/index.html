@@ -131,7 +131,7 @@
       <section class="task-container">
         <div class="task-heading-container">
           <h3 class="task-heading">Tasks</h3>
-          <button class="remove-finished-tasks-btn">
+          <button class="remove-completed-tasks-btn">
             <i class="fas fa-trash-alt"></i>
           </button>
         </div>
@@ -142,27 +142,11 @@
             <p class="active-task">Styling</p>
           </div>
         </div>
-        <ul class="tasks">
-          <li class="task active">
-            <input type="checkbox" id="checkbox" class="checkbox" />
-            <label for="checkbox" class="task-subject">
-              <i class="fas fa-check-circle check-icon"></i>
-              CSS
-            </label>
-            <span class="est-counter">
-              <span class="est-done">0</span>
-              /1
-            </span>
-            <button class="remove-btn">
-              <i class="fas fa-minus-circle"></i>
-            </button>
-          </li>
-        </ul>
-        <button class="add-task-btn">
+        <button class="add-task-btn active">
           <i class="fad fa-plus-circle add-icon"></i>
           Add Task
         </button>
-        <div class="add-task-container active">
+        <div class="add-task-container ">
           <div class="add-task active">
             <input
               type="text"
@@ -191,7 +175,7 @@
             <button class="save-btn">Save</button>
           </div>
         </div>
-        <div class="current-progress active">
+        <div class="current-progress">
           <div class="est">
             Est:
             <span class="num">0</span>
@@ -205,6 +189,9 @@
             <span class="num">17:35</span>
           </div>
         </div>
+        <ul class="tasks">
+          <!-- task list -->
+        </ul>
       </section>
     </main>
     <footer></footer>
