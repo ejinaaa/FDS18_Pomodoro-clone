@@ -43,7 +43,7 @@
     </div>
   </header>
   <main>
-    <div class="main__container">
+    <section class="main__container">
       <nav class="main__navigation">
         <ul class="main__btn-group">
           <li><button id="pomodoro" class="active" type="button">Pomodoro</button></li>
@@ -55,7 +55,56 @@
         <div class="main__time-set">25:00</div>
         <button class="btn-start">START</button>
       </div>
-    </div>
+    </section>
+    <section class="task-container">
+      <h3 class="task-heading">Tasks</h3>
+      <button class="clear-finished-tasks-btn"><i class="fas fa-trash-alt"></i></button>
+      <ul class="tasks">
+        <li class="task">
+            <!-- <span class="active-line active"></span> -->
+            <input type="checkbox" id="checkbox" class="checkbox">
+            <label for="checkbox" class="task-subject">
+              <i class="fas fa-check-circle check-icon"></i>
+              할일1
+            </label>
+            <span class="est-counter">0/1</span>
+            <button class="remove-btn"></button>
+        </li>
+      </ul>
+      <button class="add-task-btn active">
+        <i class="fad fa-plus-circle"></i>
+        Add Task
+      </button>
+      <div class="add-task-container active">
+        <div class="add-task active">
+          <input type="text" class="input-task" placeholder="What are you working on?">
+          <p class="set-est">Est Pomodoros</p>
+          <div class="est-container">
+            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0" step="1"></label>
+            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="down-btn"><i class="fas fa-caret-down"></i></button>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button class="cancel-btn">Cancel</button>
+          <button class="save-btn">Save</button>
+        </div>
+      </div>
+      <!-- <div class="current-progress active">
+        <div class="est">
+          Est:
+          <span class="num"></span>
+        </div>
+        <div class="act">
+          Act:
+          <span class="num"></span>
+        </div>
+        <div class="finish-time">
+          Finish at:
+          <span class="num"></span>
+        </div>
+      </div> -->
+    </section>
   </main>
   <footer>
 
