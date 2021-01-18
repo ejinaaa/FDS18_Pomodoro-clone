@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./dist/css/style.css" rel="stylesheet"></link>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script defer src="./dist/js/bundle.js"></script>
-    <title>뽀모도로 타이머 클론</title>
-  </head>
-  <body>
-  
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="./dist/css/style.css" rel="stylesheet">
+  </link>
+  <script defer src="./dist/js/bundle.js"></script>
+  <title>뽀모도로 타이머 클론</title>
+</head>
+
+<body>
+  <main>
+    <div class="main__container">
+      <nav class="main__navigation">
+        <ul class="main__btn-group">
+          <li><button id="pomodoro" type="button">Pomodoro</button></li>
+          <li><button id="short-break" type="button">Short Break</button></li>
+          <li><button id="long-break" type="button">Long Break</button></li>
+        </ul>
+      </nav>
+      <div class="main__time-container">
+        <div class="main__time-set">25 : 00</div>
+        <button class="btn-start">START</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+
+  </footer>
+</body>
+
 </html>
