@@ -12,6 +12,7 @@ export default function putSettings() {
   async function putSettings(set) {
     try {
       const res = await getId();
+      console.log('fuckfuck', res);
       const id = res.data[0]._id;
       const response = await axios.put(url + id, set);
       console.log(response);
