@@ -8,7 +8,7 @@ export default (function () {
       this.minute = min;
       this.second = sec;
       this.customEvent = new MouseEvent('click', {
-        bubbles: true,
+        bubbles: true
       });
       this.$nav = document.querySelector('.main__btn-group');
       this.$time = document.querySelector('.main__time-set');
@@ -19,7 +19,7 @@ export default (function () {
         this.countDown();
         this.setBtnText();
       };
-      this.$shortBtn.onclick = (e) => {
+      this.$shortBtn.onclick = e => {
         this.$startBtn.classList.remove('active');
         this.setBtnText();
         this.changeState(e.target);
@@ -27,7 +27,8 @@ export default (function () {
         this.changeTimeText();
         this.stopTimer();
       };
-      this.$nav.onclick = (e) => {
+      this.$nav.onclick = e => {
+        if (e.target === e.currentTarget) return;
         this.$startBtn.classList.remove('active');
         this.setBtnText();
         this.changeState(e.target);
@@ -49,7 +50,8 @@ export default (function () {
         if (!this.minute && !this.second) {
           this.$shortBtn.dispatchEvent(this.customEvent);
           return clearInterval(this.timerId);
-        } else if (!this.second) {
+        }
+        if (!this.second) {
           --this.minute;
           this.second = 59;
         } else {
@@ -68,7 +70,7 @@ export default (function () {
     }
 
     changeState(target) {
-      [...this.$nav.children].forEach((child) => {
+      [...this.$nav.children].forEach(child => {
         child.classList.toggle('active', target === child);
       });
 

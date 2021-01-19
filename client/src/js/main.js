@@ -11,7 +11,8 @@ new Pomodoro('pomodoro', 0, 10);
 (function () {
   const $nav = document.querySelector('.main__btn-group');
 
-  $nav.addEventListener('click', (e) => {
+  $nav.addEventListener('click', e => {
+    if (e.target === e.currentTarget) return;
     console.log(timeState.state);
     if (timeState.state === 'pomodoro') {
       new Pomodoro('pomodoro', 0, 10);
