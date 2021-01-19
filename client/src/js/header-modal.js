@@ -1,24 +1,30 @@
 export default function modalFunc() {
-  const $settingsBtn = document.querySelector('.nav-settings-btn');
   const $modalContainer = document.querySelector('.settings-modal__container');
   const $modalForm = document.querySelector('.modal-form');
+  const $settingsBtn = document.querySelector('.nav-settings-btn');
+  const $submitBtn = document.querySelector('.settings-modal__submit-btn');
+  const $cancelBtn = document.querySelector('.settings-modal__cancel-btn');
 
   $settingsBtn.onclick = e => {
     e.preventDefault();
     $modalContainer.style.display = 'block';
   };
-  const $cancelBtn = document.querySelector('.settings-modal__cancel-btn');
-  const offscreen = (e, node) => {
+
+  const turnModal = (e, node) => {
     e.preventDefault();
-    node.style.display = 'none';
+    node.style.display = node.style.display === 'none' ? 'block' : 'none';
   };
   $modalContainer.onclick = e => {
-    offscreen(e, $modalContainer);
+    turnModal(e, $modalContainer);
   };
 
   $cancelBtn.onclick = e => {
-    offscreen(e, $modalContainer);
+    turnModal(e, $modalContainer);
   };
+
+  $submitBtn.addEventListener('click', e => {
+    turnModal(e, $modalContainer);
+  });
 
   $modalForm.onclick = e => {
     e.stopPropagation();
