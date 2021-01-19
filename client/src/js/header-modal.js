@@ -1,4 +1,4 @@
-export default function headerModalTurnOnOff() {
+export default function modalFunc() {
   const $settingsBtn = document.querySelector('.nav-settings-btn');
   const $modalContainer = document.querySelector('.settings-modal__container');
   const $modalForm = document.querySelector('.modal-form');

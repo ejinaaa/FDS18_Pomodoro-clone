@@ -1,22 +1,19 @@
-import getId from './axios-get-id';
+import getId from './fetch-id';
 
 const axios = require('axios');
 
 const url = 'http://localhost:4967/api/v1/pomo/';
 
-export default function putSettings() {
+export default function watchUpdate() {
   const $submitBtn = document.querySelector('.settings-modal__submit-btn');
   const $inputs = [...document.querySelectorAll('.modal-form input')];
   const $select = document.querySelector('.noti_freq');
 
-  async function putSettings(set) {
+  async function updateSettings(set) {
     try {
-      const res = await getId();
-      console.log('fuckfuck', res);
-      const id = res.data[0]._id;
-      const response = await axios.put(url + id, set);
-      console.log(response);
-      return true;
+      const { _id } = await getId();
+      const { data: response } = await axios.put(url + _id, set);
+      return response;
     } catch (error) {
       console.error(error);
     }
@@ -25,7 +22,6 @@ export default function putSettings() {
   $submitBtn.addEventListener('click', e => {
     e.preventDefault();
 
-    // console.log(inputs[0].className);
     const settings = {};
     $inputs.forEach(v => {
       if (v.type === 'checkbox') settings[v.className] = v.checked;
@@ -34,7 +30,6 @@ export default function putSettings() {
     settings[$select.className] = [...$select.options][
       $select.options.selectedIndex
     ].innerText;
-    console.dir(settings);
-    putSettings(settings);
+    updateSettings(settings);
   });
 }
