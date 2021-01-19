@@ -42,6 +42,7 @@ export default function task() {
     
     return () => {
       $tasks.innerHTML = tasks.map(task => getTemplate(task)).join('');
+
       if (tasks.length) $currentProgress.classList.add('active');
       else {
         $currentProgress.classList.remove('active');
@@ -88,33 +89,28 @@ export default function task() {
     return totalTime;
   };
 
-  const activateTask = (targetId) => {
+  const activateTask = targetId => {
     tasks = tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: !!(+targetId === task.id) }));
   };
 
   // Events
-  $inputTask.addEventListener('keyup', e => {
-    if (!e.target.value) $saveBtn.classList.remove('active');
-    else $saveBtn.classList.add('active');
-  })
-  
   $addTaskBtn.addEventListener('click', () => {
     $addTaskBtn.classList.remove('active');
     $addTaskContainer.classList.add('active');
     $inputTask.focus();
   });
 
-  $addTaskBtnContainer.addEventListener('click', e => {
-    if (e.target.matches('.cancel-btn')) {
-      $addTaskBtn.classList.add('active');
-      $addTaskContainer.classList.remove('active');
-    } else if (e.target.matches('.save-btn') && $inputTask.value) {
-      addTask();
-      render();
+  $addTaskContainer.addEventListener('keyup', e => {
+    if (e.key !== 'Enter' || !$inputTask.value) return;
+    else {
+      if (e.target.matches('.input-task')) $inputEstNum.focus();
+      if (e.target.matches('.input-est-num')) $saveBtn.focus();
     }
+  });
 
-    $inputTask.value = '';
-    $inputEstNum.value = 1;
+  $inputTask.addEventListener('keyup', e => {
+    if (!e.target.value) $saveBtn.classList.remove('active');
+    else $saveBtn.classList.add('active');
   });
 
   $increaseEstBtn.addEventListener('click', () => {
@@ -126,15 +122,31 @@ export default function task() {
     --$inputEstNum.value
   });
 
+  $addTaskBtnContainer.addEventListener('click', e => {
+    if (e.target.matches('.cancel-btn')) {
+      $addTaskBtn.classList.add('active');
+      $addTaskContainer.classList.remove('active');
+    } else if (e.target.matches('.save-btn') && $inputTask.value) {
+      addTask();
+      render();
+
+      $saveBtn.classList.remove('active');
+      $inputTask.focus();
+    }
+
+    $inputTask.value = '';
+    $inputEstNum.value = 1;
+  });
+
   $tasks.addEventListener('click', e => {
-    const targetId = e.target.closest('.task').id;
+    const targetTask = e.target.closest('.task');
 
     if (e.target.matches('.remove-icon')) {
-      removeTask(targetId);
+      removeTask(targetTask.id);
     } else if (e.target.matches('.check-icon')) {
-      toggleTask(targetId);
+      toggleTask(targetTask.id);
     } else {
-      activateTask(targetId);
+      activateTask(targetTask.id);
       $msgContainer.classList.add('active');
       $activeTaskSubject.textContent = targetTask.children[2].textContent;
     }
