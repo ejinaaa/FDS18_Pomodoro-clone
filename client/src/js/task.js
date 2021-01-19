@@ -75,6 +75,19 @@ export default function task() {
     tasks = tasks.filter(({ completed }) => !completed);
   };
 
+  const countCurrentEst = () => {
+    return tasks.reduce((acc, { allEst }) => acc + allEst, 0);
+  };
+
+  const countCurrentFinishTime = () => {
+    const currentTime = new Date();
+    const pomoMinutes = pomodoroTime * countCurrentEst() + shorBreakTime * (countCurrentEst() - 1) + longBreakTime * longBreakInterval;
+    const totalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes() + pomoMinutes;
+    const totalTime = `${Math.floor(totalMinutes / 60)} : ${('' + totalMinutes % 60).length === 1 ? ('0' + totalMinutes % 60) : (totalMinutes % 60)}`
+
+    return totalTime;
+  };
+
   const activateTask = (targetId) => {
     tasks = tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: !!(+targetId === task.id) }));
   };
