@@ -1,97 +1,275 @@
-export default function time() {
-  const $startBtn = document.querySelector('.btn-start');
-  const $nav = document.querySelector('.main__btn-group');
-  const $time = document.querySelector('.main__time-set');
-  let state = 'pomodoro';
-  let timerId;
-  let minute;
-  let second;
+import timeState from './timeState';
 
-  const countDown = (min = 25, sec = 0) => {
-    minute = min;
-    second = sec;
-    if (timerId) {
-      clearInterval(timerId);
-      timerId = null;
-      return;
+export default (function () {
+  class Pomodoro {
+    constructor(state, min, sec) {
+      this.timerId;
+      this.state = state;
+      this.minute = min;
+      this.second = sec;
+      this.customEvent = new MouseEvent('click', {
+        bubbles: true,
+      });
+      this.$nav = document.querySelector('.main__btn-group');
+      this.$time = document.querySelector('.main__time-set');
+      this.$startBtn = document.querySelector('.btn-start');
+      this.$shortBtn = document.querySelector('#short-break');
+      this.$startBtn.onclick = () => {
+        this.$startBtn.classList.toggle('active');
+        this.countDown();
+        this.setBtnText();
+      };
+      this.$shortBtn.onclick = (e) => {
+        this.$startBtn.classList.remove('active');
+        this.setBtnText();
+        this.changeState(e.target);
+        this.changeColor();
+        this.changeTimeText();
+        this.stopTimer();
+      };
+      this.$nav.onclick = (e) => {
+        this.$startBtn.classList.remove('active');
+        this.setBtnText();
+        this.changeState(e.target);
+        this.changeColor();
+        this.stopTimer();
+        this.changeTimeText();
+      };
+      this.changeTimeText();
     }
 
-    timerId = setInterval(() => {
-      if (!minute && !second) {
-        return clearInterval(timerId);
-      } else if (!second) {
-        --minute;
-        second = 59;
-      } else {
-        --second;
+    countDown() {
+      if (this.timerId) {
+        clearInterval(this.timerId);
+        this.timerId = null;
+        return;
       }
-      $time.innerText = `${minute < 10 ? '0' + minute : minute}:${
-        second < 10 ? '0' + second : second
-      }`;
-    }, 1000);
-  };
 
-  const changeTimer = () => {
-    state === 'pomodoro'
-      ? countDown(minute, second)
-      : state === 'short-break'
-      ? countDown(minute, second)
-      : countDown(minute, second);
-  };
+      this.timerId = setInterval(() => {
+        if (!this.minute && !this.second) {
+          this.$shortBtn.dispatchEvent(this.customEvent);
+          return clearInterval(this.timerId);
+        } else if (!this.second) {
+          --this.minute;
+          this.second = 59;
+        } else {
+          --this.second;
+        }
+        this.$time.innerText = `${
+          this.minute < 10 ? '0' + this.minute : this.minute
+        }:${this.second < 10 ? '0' + this.second : this.second}`;
+      }, 1000);
+    }
 
-  const changeBtnText = () => {
-    $time.textContent =
-      state === 'pomodoro'
-        ? '25:00'
-        : state === 'short-break'
-        ? '05:00'
-        : '15:00';
-  };
+    setBtnText() {
+      this.$startBtn.innerHTML = this.$startBtn.matches('.active')
+        ? 'STOP'
+        : 'START';
+    }
 
-  const stopTimer = () => {
-    clearInterval(timerId);
-    timerId = null;
-  };
+    changeState(target) {
+      [...this.$nav.children].forEach((child) => {
+        child.classList.toggle('active', target === child);
+      });
 
-  const setBtnText = () => {
-    $startBtn.innerHTML = $startBtn.matches('.active') ? 'STOP' : 'START';
-  };
+      this.state = target.id;
+      timeState.state = target.id;
+    }
 
-  const changeState = (target) => {
-    [...$nav.children].forEach((child) => {
-      child.classList.toggle('active', target === child);
-    });
+    changeColor() {
+      document.body.style.backgroundColor =
+        this.state === 'pomodoro'
+          ? 'rgb(219, 82, 77)'
+          : this.state === 'short-break'
+          ? 'rgb(70, 142, 145)'
+          : 'rgb(67, 126, 168)';
+      this.$startBtn.style.color =
+        this.state === 'pomodoro'
+          ? 'rgb(219, 82, 77)'
+          : this.state === 'short-break'
+          ? 'rgb(70, 142, 145)'
+          : 'rgb(67, 126, 168)';
+    }
 
-    state = target.id;
-  };
+    stopTimer() {
+      clearInterval(this.timerId);
+      this.timerId = null;
+    }
 
-  const changeColor = () => {
-    document.body.style.backgroundColor =
-      state === 'pomodoro'
-        ? 'rgb(219, 82, 77)'
-        : state === 'short-break'
-        ? 'rgb(70, 142, 145)'
-        : 'rgb(67, 126, 168)';
-    $startBtn.style.color =
-      state === 'pomodoro'
-        ? 'rgb(219, 82, 77)'
-        : state === 'short-break'
-        ? 'rgb(70, 142, 145)'
-        : 'rgb(67, 126, 168)';
-  };
+    changeTimeText() {
+      this.$time.textContent = `${
+        this.minute < 10 ? '0' + this.minute : this.minute
+      }:${this.second < 10 ? '0' + this.second : this.second}`;
+    }
+  }
 
-  $startBtn.addEventListener('click', (e) => {
-    $startBtn.classList.toggle('active');
-    setBtnText();
-    changeTimer();
-  });
+  return Pomodoro;
+})();
+//   let state = 'pomodoro';
+//   let timerId;
+//   let minute;
+//   let second;
+//   let shortMinute;
+//   let shortSecond;
+//   let longMinute;
+//   let longSecond;
 
-  $nav.addEventListener('click', (e) => {
-    $startBtn.classList.remove('active');
-    setBtnText();
-    changeState(e.target);
-    changeColor();
-    changeBtnText();
-    stopTimer();
-  });
-}
+//   const countDown = (min = 25, sec = 0) => {
+//     minute = min;
+//     second = sec;
+//     if (timerId) {
+//       clearInterval(timerId);
+//       timerId = null;
+//       return;
+//     }
+
+//     timerId = setInterval(() => {
+//       if (!minute && !second) {
+//         $shortBtn.dispatchEvent(customEvent);
+//         return clearInterval(timerId);
+//       } else if (!second) {
+//         --minute;
+//         second = 59;
+//       } else {
+//         --second;
+//       }
+//       $time.innerText = `${minute < 10 ? '0' + minute : minute}:${
+//         second < 10 ? '0' + second : second
+//       }`;
+//     }, 1000);
+//   };
+
+//   const shortCountDown = (min = 5, sec = 0) => {
+//     shortMinute = min;
+//     shortSecond = sec;
+//     if (timerId) {
+//       clearInterval(timerId);
+//       timerId = null;
+//       return;
+//     }
+
+//     timerId = setInterval(() => {
+//       if (!shortMinute && !shortSecond) {
+//         $shortBtn.dispatchEvent(customEvent);
+//         return clearInterval(timerId);
+//       } else if (!shortSecond) {
+//         --shortMinute;
+//         shortSecond = 59;
+//       } else {
+//         --shortSecond;
+//       }
+//       $time.innerText = `${
+//         shortMinute < 10 ? '0' + shortMinute : shortMinute
+//       }:${shortSecond < 10 ? '0' + shortSecond : shortSecond}`;
+//     }, 1000);
+//   };
+
+//   const longCountDown = (min = 15, sec = 0) => {
+//     longMinute = min;
+//     longSecond = sec;
+//     if (timerId) {
+//       clearInterval(timerId);
+//       timerId = null;
+//       return;
+//     }
+
+//     timerId = setInterval(() => {
+//       if (!longMinute && !longSecond) {
+//         $shortBtn.dispatchEvent(customEvent);
+//         return clearInterval(timerId);
+//       } else if (!longSecond) {
+//         --longMinute;
+//         longSecond = 59;
+//       } else {
+//         --longSecond;
+//       }
+//       $time.innerText = `${longMinute < 10 ? '0' + longMinute : longMinute}:${
+//         longSecond < 10 ? '0' + longSecond : longSecond
+//       }`;
+//     }, 1000);
+//   };
+
+//   const changeTimer = () => {
+//     state === 'pomodoro'
+//       ? countDown()
+//       : state === 'short-break'
+//       ? shortCountDown()
+//       : longCountDown();
+//   };
+
+//   const changeBtnText = () => {
+//     $time.textContent =
+//       state === 'pomodoro'
+//         ? '25:00'
+//         : state === 'short-break'
+//         ? '05:00'
+//         : '15:00';
+//   };
+
+//   const stopTimer = () => {
+//     clearInterval(timerId);
+//     timerId = null;
+//   };
+
+//   const setBtnText = () => {
+//     $startBtn.innerHTML = $startBtn.matches('.active') ? 'STOP' : 'START';
+//   };
+
+//   const changeState = (target) => {
+//     [...$nav.children].forEach((child) => {
+//       child.classList.toggle('active', target === child);
+//     });
+
+//     state = target.id;
+//   };
+
+//   const changeColor = () => {
+//     document.body.style.backgroundColor =
+//       state === 'pomodoro'
+//         ? 'rgb(219, 82, 77)'
+//         : state === 'short-break'
+//         ? 'rgb(70, 142, 145)'
+//         : 'rgb(67, 126, 168)';
+//     $startBtn.style.color =
+//       state === 'pomodoro'
+//         ? 'rgb(219, 82, 77)'
+//         : state === 'short-break'
+//         ? 'rgb(70, 142, 145)'
+//         : 'rgb(67, 126, 168)';
+//   };
+
+//   const allInitialize = () => {
+//     shortMinute = undefined;
+//     shortSecond = undefined;
+//     minute = undefined;
+//     second = undefined;
+//     longMinute = undefined;
+//     longSecond = undefined;
+//   };
+
+//   $startBtn.addEventListener('click', (e) => {
+//     $startBtn.classList.toggle('active');
+//     setBtnText();
+//     changeTimer();
+//   });
+
+//   $nav.addEventListener('click', (e) => {
+//     $startBtn.classList.remove('active');
+//     allInitialize();
+//     setBtnText();
+//     changeState(e.target);
+//     changeColor();
+//     changeBtnText();
+//     stopTimer();
+//   });
+
+//   $shortBtn.addEventListener('click', (e) => {
+//     $startBtn.classList.remove('active');
+//     setBtnText();
+//     changeState(e.target);
+//     changeColor();
+//     changeBtnText();
+//     stopTimer();
+//   });
+// }
+//
