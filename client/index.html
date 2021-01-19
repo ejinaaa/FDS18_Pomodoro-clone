@@ -131,11 +131,11 @@
           <i class="fas fa-trash-alt"></i>
         </button>
       </div>
-      <div class="msg-container active">
+      <div class="msg-container">
         <h3 class="non-active-msg">Time to Work!</h3>
         <div class="active-task-container">
           <p class="active-msg">WORKING ON</p>
-          <p class="active-task">Styling</p>
+          <p class="active-task"></p>
         </div>
       </div>
       <button class="add-task-btn active">
@@ -144,13 +144,12 @@
       </button>
       <div class="add-task-container">
         <div class="add-task active">
-          <input type="text" class="input-task" placeholder="What are you working on?" />
-          <p class="set-est">Est Pomodoros</p>
-          <div class="est-container">
-            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0"
-                step="1" /></label>
-            <button class="up-btn"><i class="fas fa-caret-up"></i></button>
-            <button class="down-btn">
+          <input type="text" class="input-task" placeholder="What are you working on?"/>
+          <div class="set-est-container">
+            <p class="set-est-msg">Est Pomodoros</p>
+            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0"/></label>
+            <button class="increase-btn"><i class="fas fa-caret-up"></i></button>
+            <button class="decrease-btn">
               <i class="fas fa-caret-down"></i>
             </button>
           </div>
@@ -174,7 +173,7 @@
         </div>
         <div class="finish-time">
           Finish at:
-          <span class="num">17:35</span>
+          <span class="num">00:00</span>
         </div>
       </div>
     </section>
