@@ -75,6 +75,10 @@ export default function task() {
     tasks = tasks.filter(({ completed }) => !completed);
   };
 
+  const activateTask = (targetId) => {
+    tasks = tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: !!(+targetId === task.id) }));
+  };
+
   // Events
   $inputTask.addEventListener('keyup', e => {
     if (!e.target.value) $saveBtn.classList.remove('active');
@@ -116,8 +120,12 @@ export default function task() {
       removeTask(targetId);
     } else if (e.target.matches('.check-icon')) {
       toggleTask(targetId);
+    } else {
+      activateTask(targetId);
+      $msgContainer.classList.add('active');
+      $activeTaskSubject.textContent = targetTask.children[2].textContent;
     }
-
+    
     render();
   });
 
