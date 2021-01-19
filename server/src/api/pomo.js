@@ -6,15 +6,29 @@ const db = monk(process.env.MONGO_URI);
 const pomoDB = db.get('pomo');
 
 const schema = Joi.object({
-  time_set: Joi.string().trim().required(),
+  pomo_time: Joi.string().trim().required(),
+  short_break: Joi.string().trim().required(),
+  long_break: Joi.string().trim().required(),
   auto_start: Joi.string().trim().required(),
   volume: Joi.string().trim().required(),
   long_interval: Joi.string().trim().required(),
   dark_mode: Joi.string().trim().required(),
-  notification: Joi.string().trim().required(),
+  noti_freq: Joi.string().trim().required(),
+  noti_time: Joi.string().trim().required(),
 });
 
 const router = express.Router();
+pomoDB.insert({
+  auto_start: 'false',
+  dark_mode: 'false',
+  long_break: '15',
+  long_interval: '4',
+  noti_freq: 'Last',
+  noti_time: '5',
+  pomo_time: '25',
+  short_break: '5',
+  volume: '50',
+});
 
 // READ ALL
 router.get('/', async (req, res, next) => {
@@ -27,7 +41,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // READ One
-router.get('/:id', async (req, res, next) => {
+router.get('/get/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const item = await pomoDB.findOne({
@@ -41,7 +55,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // Create One
-router.post('/', async (req, res, next) => {
+router.post('/post', async (req, res, next) => {
   try {
     const value = await schema.validateAsync(req.body);
     const inserted = await pomoDB.insert(value);
@@ -55,7 +69,8 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const value = await schema.validateAsync(req.body);
+    // const value = await schema.validateAsync(req.body);
+    const value = req.body;
     const item = await pomoDB.findOne({
       _id: id,
     });
