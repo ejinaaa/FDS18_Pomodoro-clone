@@ -6,11 +6,15 @@ export default function time() {
   let timerId;
   let minute;
   let second;
-  let stopCount = 0;
 
   const countDown = (min = 25, sec = 0) => {
     minute = min;
     second = sec;
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+      return;
+    }
 
     timerId = setInterval(() => {
       if (!minute && !second) {
@@ -26,12 +30,13 @@ export default function time() {
       }`;
     }, 1000);
   };
+
   const changeTimer = () => {
     state === 'pomodoro'
       ? countDown(minute, second)
       : state === 'short-break'
-      ? countDown(5, 0)
-      : countDown(15, 0);
+      ? countDown(minute, second)
+      : countDown(minute, second);
   };
 
   const changeBtnText = () => {
@@ -42,28 +47,15 @@ export default function time() {
         ? '05:00'
         : '15:00';
   };
+
   const stopTimer = () => {
-    console.log(stopCount);
-    if (stopCount) {
-      clearInterval(timerId);
-      clearInterval(timerId - 1);
-    }
-    stopCount++;
-    if (stopCount >= 2) {
-      stopCount = 0;
-    }
+    clearInterval(timerId);
+    timerId = null;
   };
 
   const setBtnText = () => {
     $startBtn.innerHTML = $startBtn.matches('.active') ? 'STOP' : 'START';
   };
-
-  $startBtn.addEventListener('click', (e) => {
-    $startBtn.classList.toggle('active');
-    setBtnText();
-    changeTimer();
-    stopTimer();
-  });
 
   const changeState = (target) => {
     [...$nav.children].forEach((child) => {
@@ -71,7 +63,6 @@ export default function time() {
     });
 
     state = target.id;
-    console.log(state);
   };
 
   const changeColor = () => {
@@ -89,8 +80,13 @@ export default function time() {
         : 'rgb(67, 126, 168)';
   };
 
+  $startBtn.addEventListener('click', (e) => {
+    $startBtn.classList.toggle('active');
+    setBtnText();
+    changeTimer();
+  });
+
   $nav.addEventListener('click', (e) => {
-    stopCount = 2;
     $startBtn.classList.remove('active');
     setBtnText();
     changeState(e.target);
