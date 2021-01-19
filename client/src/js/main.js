@@ -1,10 +1,12 @@
-//const example = require('something');
 import task from './task';
 import time from './time';
-import turnOnOff from './turn-on-off-modal';
+import headerModalTurnOnOff from './turn-on-off-modal';
+import putSettings from './axios-header-modal';
 
 time();
 
-turnOnOff();
+headerModalTurnOnOff();
 
 task();
+
+putSettings();

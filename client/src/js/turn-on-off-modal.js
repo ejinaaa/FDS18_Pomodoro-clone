@@ -1,10 +1,9 @@
-export default function turnOnOff() {
+export default function headerModalTurnOnOff() {
   const $settingsBtn = document.querySelector('.nav-settings-btn');
   const $modalContainer = document.querySelector('.settings-modal__container');
   const $modalForm = document.querySelector('.modal-form');
 
   $settingsBtn.onclick = e => {
-    console.log('adfasdf');
     e.preventDefault();
     $modalContainer.style.display = 'block';
   };
