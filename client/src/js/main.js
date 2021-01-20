@@ -1,10 +1,7 @@
-import Pomodoro from './time';
-import ShortTime from './shortTime';
-import timeState from './timeState';
-import LongTime from './longTime';
 import task from './task';
 import modalFunc from './header-modal';
 import {watchUpdate} from './axios/update-settings';
+import render from './render';
 
 new Pomodoro('pomodoro', 0, 10);
 
@@ -30,4 +27,4 @@ watchUpdate();
 
 task();
 
-
+render();
