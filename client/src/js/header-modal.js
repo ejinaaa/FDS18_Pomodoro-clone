@@ -5,7 +5,7 @@ export default function modalFunc() {
   const $submitBtn = document.querySelector('.settings-modal__submit-btn');
   const $cancelBtn = document.querySelector('.settings-modal__cancel-btn');
 
-  $settingsBtn.onclick = e => {
+  $settingsBtn.onclick = (e) => {
     e.preventDefault();
     $modalContainer.style.display = 'block';
   };
@@ -14,19 +14,19 @@ export default function modalFunc() {
     e.preventDefault();
     node.style.display = node.style.display === 'none' ? 'block' : 'none';
   };
-  $modalContainer.onclick = e => {
+  $modalContainer.onclick = (e) => {
     turnModal(e, $modalContainer);
   };
 
-  $cancelBtn.onclick = e => {
+  $cancelBtn.onclick = (e) => {
     turnModal(e, $modalContainer);
   };
 
-  $submitBtn.addEventListener('click', e => {
+  $submitBtn.addEventListener('click', (e) => {
     turnModal(e, $modalContainer);
   });
 
-  $modalForm.onclick = e => {
+  $modalForm.onclick = (e) => {
     e.stopPropagation();
   };
 }
