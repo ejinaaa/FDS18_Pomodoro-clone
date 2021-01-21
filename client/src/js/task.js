@@ -2,7 +2,7 @@ import { fetchSettings } from './axios/fetch';
 import { updateSettings } from './axios/update';
 import timerState from './timeState';
 
-// Variables
+// DOM
 const $addTaskBtn = document.querySelector('.add-task-btn');
 const $addTaskContainer = document.querySelector('.add-task-container');
 const $inputTask = document.querySelector('.add-task-container .input-task');
@@ -30,6 +30,7 @@ const $activeTaskSubject = document.querySelector('.active-task');
 const $saveBtn = document.querySelector('.save-btn');
 const $msgContainer = document.querySelector('.msg-container');
 const $time = document.querySelector('.main__time-set');
+const $settingsSubmitBtn = document.querySelector('.settings-modal__submit-btn')
 
 let pomodoroTime = 0;
 let shortBreakTime = 0;
@@ -69,24 +70,31 @@ export default function task() {
       if (tasks.every(({ active }) => active === false))
         $msgContainer.classList.remove('active');
 
+      if (tasks.some(task => task.active === true)) {
+        $msgContainer.classList.add('active');
+        $activeTaskSubject.textContent = tasks.find(task => task.active).content;
+      } else {
+        $msgContainer.classList.remove('active');
+      }
+
       updateCurrentProgress();
     };
   })();
 
   const getTasks = () => {
     fetchSettings().then(res => {
-      pomodoroTime = res.pomo_time;
-      shortBreakTime = res.short_break;
-      longBreakTime = res.long_break;
-      longBreakInterval = res.long_interval;
-
       updateAct();
       render(res.tasks);
     });
   };
 
   const updateCurrentProgress = () => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
+      pomodoroTime = res.pomo_time;
+      shortBreakTime = res.short_break;
+      longBreakTime = res.long_break;
+      longBreakInterval = res.long_interval;
+
       const currentEst = res.tasks.reduce(
         (acc, { completed, allEst }) => (completed ? acc : acc + allEst),
         0
@@ -114,7 +122,7 @@ export default function task() {
   };
 
   const addTask = (inputTaskValue, inputEstNum) => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
       const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1;
       const tasks = [
         ...res.tasks,
@@ -141,7 +149,7 @@ export default function task() {
   };
 
   const toggleTask = targetId => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
       const tasks = res.tasks.map(task =>
         +targetId === task.id ? { ...task, completed: !task.completed } : task
       );
@@ -159,7 +167,7 @@ export default function task() {
   };
 
   const activateTask = targetId => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
       const tasks = res.tasks.map(task => ({
         ...task,
         active: +targetId === task.id
@@ -170,7 +178,7 @@ export default function task() {
   };
 
   const updateLeftEst = () => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
       const tasks = res.tasks.map(task =>
         task.active ? { ...task, leftEst: ++task.leftEst } : task
       );
@@ -180,7 +188,7 @@ export default function task() {
   };
 
   const updateAct = () => {
-    fetchData().then(res => {
+    fetchSettings().then(res => {
       const actNum = res.tasks.reduce((acc, { leftEst }) => acc + +leftEst, 0);
 
       $currentAct.textContent = actNum;
@@ -243,8 +251,6 @@ export default function task() {
       toggleTask(targetTask.id);
     } else {
       activateTask(targetTask.id);
-      $msgContainer.classList.add('active');
-      $activeTaskSubject.textContent = targetTask.children[2].textContent;
     }
   });
 
@@ -257,5 +263,9 @@ export default function task() {
 
     updateAct();
     updateLeftEst();
+  });
+
+  $settingsSubmitBtn.addEventListener('click', () => {
+    updateCurrentProgress();
   });
 }
