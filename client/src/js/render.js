@@ -28,6 +28,7 @@ export default async function () {
 
     const $nav = document.querySelector('.main__btn-group');
     $nav.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) return;
       // 네비게이션 버튼이 클릭되면 현재 설정된 시간으로 초기화 되고 초기화 된 시간을 다시 랜더링한다.
       pomodoro.minute = getNowState();
       pomodoro.setTimeText();
