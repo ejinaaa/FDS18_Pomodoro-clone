@@ -20,15 +20,18 @@ export default class Pomodoro {
     this.$startBtn = document.querySelector('.btn-start');
     this.$longBtn = document.querySelector('#long-break');
     this.$shortBtn = document.querySelector('#short-break');
-
+    this.$pomoBtn = document.querySelector('#pomodoro');
+    // 시작 버튼이 클릭되면 버튼의 클래스를 토글해주고 타이머를 시작하고 버튼의 텍스트를 바꿔주고 딸깍 오디오를 재생시킨다.
     this.$startBtn.onclick = () => {
       this.$startBtn.classList.toggle('active');
       this.countDown();
       this.setBtnText();
       this.clickAudio.play();
     };
-
-    this.$nav.onclick = e => {
+    
+    // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
+    // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
+    this.$nav.onclick = (e) => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -36,11 +39,12 @@ export default class Pomodoro {
       this.setColor();
       this.stopTimer();
     };
-
+    // 커스텀 클릭이벤트 발생시킬 용도
     this.$longBtn.onclick = () => {};
     this.$shortBtn.onclick = () => {};
+    this.$pomoBtn.onclick = () => {};
   }
-
+  // 타이머를 시작시킨다.
   countDown() {
     if (this.timerId) {
       clearInterval(this.timerId);
@@ -49,11 +53,13 @@ export default class Pomodoro {
     }
 
     this.timerId = setInterval(() => {
+      // 0분 0초가 되면 커스텀 이벤트를 발생시키고,
+      // pomodoro, short-break, long-break 중 어느 상태로 변경해야 하는지 설정하고 타이머를 멈춘다
       if (!this.minute && !this.second) {
         ++this.intervalCount;
         this.$time.dispatchEvent(this.timeEnd);
         this.alram.play();
-        this.selectBreakTime();
+        this.selectTime();
         return clearInterval(this.timerId);
       }
 
@@ -61,22 +67,24 @@ export default class Pomodoro {
       this.setTimeText();
     }, 1000);
   }
-
-  selectBreakTime() {
-    if (+this.interval === this.intervalCount) {
+  // 상태나 설정된 long-beak-interval에 따라서 어떤 커스텀 이벤트를 발생시킬지 선택한다.
+  selectTime() {
+    if (timeState.state !== 'pomodoro') {
+      return this.$pomoBtn.dispatchEvent(this.customEvent);
+    } else if (+this.interval === this.intervalCount) {
       this.$longBtn.dispatchEvent(this.customEvent);
       this.intervalCount = 0;
     } else {
       this.$shortBtn.dispatchEvent(this.customEvent);
     }
   }
-
+  // 스타트 버튼의 텍스트를 변경
   setBtnText() {
     this.$startBtn.textContent = this.$startBtn.matches('.active')
       ? 'STOP'
       : 'START';
   }
-
+  // 현재 상태를 변경한다.
   setState(target) {
     [...this.$nav.children].forEach(child => {
       child.classList.toggle('active', target === child);
@@ -84,7 +92,7 @@ export default class Pomodoro {
 
     timeState.state = target.id;
   }
-
+  // 상태에 따라 스타트버튼과 배경색을 변경한다.
   setColor() {
     document.body.style.backgroundColor =
       timeState.state === 'pomodoro'
@@ -100,13 +108,13 @@ export default class Pomodoro {
         ? 'rgb(70, 142, 145)'
         : 'rgb(67, 126, 168)';
   }
-
+  // 현재 타이머를 랜더링한다.
   setTimeText() {
     this.$time.textContent = `${
       this.minute < 10 ? '0' + this.minute : this.minute
     }:${this.second < 10 ? '0' + this.second : this.second}`;
   }
-
+  // 타이머를 셋팅한다.
   setCount() {
     if (!this.second) {
       --this.minute;
@@ -115,179 +123,10 @@ export default class Pomodoro {
       --this.second;
     }
   }
-
+  // 타이머를 멈춘다
   stopTimer() {
     clearInterval(this.timerId);
     this.timerId = null;
     this.second = 0;
   }
 }
-
-//   let state = 'pomodoro';
-//   let timerId;
-//   let minute;
-//   let second;
-//   let shortMinute;
-//   let shortSecond;
-//   let longMinute;
-//   let longSecond;
-
-//   const countDown = (min = 25, sec = 0) => {
-//     minute = min;
-//     second = sec;
-//     if (timerId) {
-//       clearInterval(timerId);
-//       timerId = null;
-//       return;
-//     }
-
-//     timerId = setInterval(() => {
-//       if (!minute && !second) {
-//         $shortBtn.dispatchEvent(customEvent);
-//         return clearInterval(timerId);
-//       } else if (!second) {
-//         --minute;
-//         second = 59;
-//       } else {
-//         --second;
-//       }
-//       $time.innerText = `${minute < 10 ? '0' + minute : minute}:${
-//         second < 10 ? '0' + second : second
-//       }`;
-//     }, 1000);
-//   };
-
-//   const shortCountDown = (min = 5, sec = 0) => {
-//     shortMinute = min;
-//     shortSecond = sec;
-//     if (timerId) {
-//       clearInterval(timerId);
-//       timerId = null;
-//       return;
-//     }
-
-//     timerId = setInterval(() => {
-//       if (!shortMinute && !shortSecond) {
-//         $shortBtn.dispatchEvent(customEvent);
-//         return clearInterval(timerId);
-//       } else if (!shortSecond) {
-//         --shortMinute;
-//         shortSecond = 59;
-//       } else {
-//         --shortSecond;
-//       }
-//       $time.innerText = `${
-//         shortMinute < 10 ? '0' + shortMinute : shortMinute
-//       }:${shortSecond < 10 ? '0' + shortSecond : shortSecond}`;
-//     }, 1000);
-//   };
-
-//   const longCountDown = (min = 15, sec = 0) => {
-//     longMinute = min;
-//     longSecond = sec;
-//     if (timerId) {
-//       clearInterval(timerId);
-//       timerId = null;
-//       return;
-//     }
-
-//     timerId = setInterval(() => {
-//       if (!longMinute && !longSecond) {
-//         $shortBtn.dispatchEvent(customEvent);
-//         return clearInterval(timerId);
-//       } else if (!longSecond) {
-//         --longMinute;
-//         longSecond = 59;
-//       } else {
-//         --longSecond;
-//       }
-//       $time.innerText = `${longMinute < 10 ? '0' + longMinute : longMinute}:${
-//         longSecond < 10 ? '0' + longSecond : longSecond
-//       }`;
-//     }, 1000);
-//   };
-
-//   const changeTimer = () => {
-//     state === 'pomodoro'
-//       ? countDown()
-//       : state === 'short-break'
-//       ? shortCountDown()
-//       : longCountDown();
-//   };
-
-//   const changeBtnText = () => {
-//     $time.textContent =
-//       state === 'pomodoro'
-//         ? '25:00'
-//         : state === 'short-break'
-//         ? '05:00'
-//         : '15:00';
-//   };
-
-//   const stopTimer = () => {
-//     clearInterval(timerId);
-//     timerId = null;
-//   };
-
-//   const setBtnText = () => {
-//     $startBtn.innerHTML = $startBtn.matches('.active') ? 'STOP' : 'START';
-//   };
-
-//   const changeState = (target) => {
-//     [...$nav.children].forEach((child) => {
-//       child.classList.toggle('active', target === child);
-//     });
-
-//     state = target.id;
-//   };
-
-//   const changeColor = () => {
-//     document.body.style.backgroundColor =
-//       state === 'pomodoro'
-//         ? 'rgb(219, 82, 77)'
-//         : state === 'short-break'
-//         ? 'rgb(70, 142, 145)'
-//         : 'rgb(67, 126, 168)';
-//     $startBtn.style.color =
-//       state === 'pomodoro'
-//         ? 'rgb(219, 82, 77)'
-//         : state === 'short-break'
-//         ? 'rgb(70, 142, 145)'
-//         : 'rgb(67, 126, 168)';
-//   };
-
-//   const allInitialize = () => {
-//     shortMinute = undefined;
-//     shortSecond = undefined;
-//     minute = undefined;
-//     second = undefined;
-//     longMinute = undefined;
-//     longSecond = undefined;
-//   };
-
-//   $startBtn.addEventListener('click', (e) => {
-//     $startBtn.classList.toggle('active');
-//     setBtnText();
-//     changeTimer();
-//   });
-
-//   $nav.addEventListener('click', (e) => {
-//     $startBtn.classList.remove('active');
-//     allInitialize();
-//     setBtnText();
-//     changeState(e.target);
-//     changeColor();
-//     changeBtnText();
-//     stopTimer();
-//   });
-
-//   $shortBtn.addEventListener('click', (e) => {
-//     $startBtn.classList.remove('active');
-//     setBtnText();
-//     changeState(e.target);
-//     changeColor();
-//     changeBtnText();
-//     stopTimer();
-//   });
-// }
-//
