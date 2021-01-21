@@ -30,7 +30,6 @@ export default function () {
       $loadingBar.style.width = `${
         +$loadingBar.style.width.substring(0, 3) - oneSecLoad
       }px`;
-      console.log($loadingBar.style.width);
     }, 1000 * curTime);
   });
 }
