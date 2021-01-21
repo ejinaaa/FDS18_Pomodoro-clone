@@ -108,6 +108,10 @@ $width: 480px;
       background-color: rgba(0, 0, 0, 1);
     }
 
+    &.dragging {
+      opacity: 0.5;
+    }
+
     .checkbox {
       border: 0;
       clip: rect(1px, 1px, 1px, 1px);
