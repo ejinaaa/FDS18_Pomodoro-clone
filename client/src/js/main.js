@@ -1,7 +1,9 @@
 import task from './task';
 import modalFunc from './header-modal';
 import watchUpdate from './axios/update-settings';
-import render from './render';
+import { render } from './render';
+import loadingBar from './loading-bar';
+
 watchUpdate();
 
 modalFunc();
@@ -9,3 +11,5 @@ modalFunc();
 task();
 
 render();
+
+loadingBar();

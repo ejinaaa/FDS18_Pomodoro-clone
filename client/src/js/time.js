@@ -1,4 +1,5 @@
 import timeState from './timeState';
+
 export default class Pomodoro {
   constructor(min, sec) {
     this.timerId;
@@ -6,7 +7,7 @@ export default class Pomodoro {
     this.second = sec;
     this.clickAudio = new Audio('./src/media/mouse.wav');
     this.customEvent = new MouseEvent('click', {
-      bubbles: true,
+      bubbles: true
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
@@ -19,7 +20,7 @@ export default class Pomodoro {
       this.clickAudio.play();
     };
     this.$shortBtn.onclick = () => {};
-    this.$nav.onclick = (e) => {
+    this.$nav.onclick = e => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -62,7 +63,7 @@ export default class Pomodoro {
   }
 
   setState(target) {
-    [...this.$nav.children].forEach((child) => {
+    [...this.$nav.children].forEach(child => {
       child.classList.toggle('active', target === child);
     });
 
