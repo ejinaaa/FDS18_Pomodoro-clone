@@ -71,6 +71,7 @@ export default function task() {
   const updateCurrentProgress = () => {
     fetchData().then(res => {
       const currentEst = res.tasks.reduce((acc, { completed, allEst }) => completed ? acc : acc + allEst, 0);
+
       $currentEst.textContent = currentEst;
 
       const currentTime = new Date();
@@ -84,8 +85,9 @@ export default function task() {
 
   const addTask = (inputTaskValue, inputEstNum) => {
     fetchData().then(res => {
-      const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1
+      const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1;
       const tasks = [...res.tasks, {id: generateId, content: inputTaskValue, allEst: inputEstNum, leftEst: 0, completed: false, active: false }];
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
@@ -93,13 +95,15 @@ export default function task() {
   const removeTask = targetId => {
     fetchData().then(res => {
       const tasks = res.tasks.filter(({ id }) => +targetId !== id);
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
 
   const toggleTask = targetId => {
     fetchData().then(res => {
-      const tasks = res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: +targetId === task.id ? !task.completed : task.completed, active: task.active }));
+      const tasks = res.tasks.map(task => +targetId === task.id ? { ...task, completed: !task.completed } : task);
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
@@ -107,38 +111,37 @@ export default function task() {
   const removeCompletedTasks = () => {
     fetchData().then(res => {
       const tasks = [...res.tasks.filter(({ completed }) => !completed)];
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
 
   const activateTask = targetId => {
     fetchData().then(res => {
-      const tasks = res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: +targetId === task.id }));
+      const tasks = res.tasks.map(task => ({ ...task, active: +targetId === task.id }));
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
 
   const updateLeftEst = () => {
     fetchData().then(res => {
-      const tasks = res.tasks.map(task => {
-        if (task.active) return { ...task, leftEst: ++task.leftEst }
-        else return task;
-      });
+      const tasks = res.tasks.map(task => task.active ? { ...task, leftEst: ++task.leftEst } : task);
+
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
 
   const updateAct = () => {
     fetchData().then(res => {
-      const actNum = res.tasks.reduce((acc, { leftEst }) => {
-        return acc + +leftEst;
-      }, 0);
+      const actNum = res.tasks.reduce((acc, { leftEst }) => acc + +leftEst, 0);
+
       $currentAct.textContent = actNum;
-    })
-  }
+    });
+  };
 
   // Events
-  document.addEventListener('DOMContentLoaded', getTasks)
+  document.addEventListener('DOMContentLoaded', getTasks);
 
   $addTaskBtn.addEventListener('click', () => {
     $addTaskBtn.classList.remove('active');
@@ -160,12 +163,12 @@ export default function task() {
   });
 
   $increaseEstBtn.addEventListener('click', () => {
-    ++$inputEstNum.value
+    ++$inputEstNum.value;
   });
 
   $decreaseEstBtn.addEventListener('click', () => {
     if ($inputEstNum.value < 2) return;
-    --$inputEstNum.value
+    --$inputEstNum.value;
   });
 
   $addTaskBtnContainer.addEventListener('click', e => {
@@ -174,7 +177,6 @@ export default function task() {
       $addTaskContainer.classList.remove('active');
     } else if (e.target.matches('.save-btn') && $inputTask.value) {
       addTask($inputTask.value, +$inputEstNum.value);
-
       $saveBtn.classList.remove('active');
       $inputTask.focus();
     }
@@ -203,7 +205,7 @@ export default function task() {
 
   $time.addEventListener('timeEnd', () => {
     if (timerState.state !== 'pomodoro') return;
-
+    
     updateAct();
     updateLeftEst();
   });
