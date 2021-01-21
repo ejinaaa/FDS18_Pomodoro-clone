@@ -13,12 +13,13 @@ export default async function () {
 
     const getNowState = () => {
       return timeState.state === 'pomodoro'
-        ? pomo_time
+        ? +pomo_time
         : timeState.state === 'short-break'
-        ? short_break
-        : long_break;
+        ? +short_break
+        : +long_break;
     };
-    const curTime = getNowState();
+
+    const curTime = getNowState() || 1;
 
     const pomodoro = new Pomodoro(curTime, 0, long_interval);
     pomodoro.setTimeText();

@@ -20,6 +20,7 @@ export default class Pomodoro {
     this.$startBtn = document.querySelector('.btn-start');
     this.$longBtn = document.querySelector('#long-break');
     this.$shortBtn = document.querySelector('#short-break');
+    this.$pomoBtn = document.querySelector('#pomodoro');
 
     this.$startBtn.onclick = () => {
       this.$startBtn.classList.toggle('active');
@@ -39,6 +40,7 @@ export default class Pomodoro {
 
     this.$longBtn.onclick = () => {};
     this.$shortBtn.onclick = () => {};
+    this.$pomoBtn.onclick = () => {};
   }
 
   countDown() {
@@ -51,9 +53,10 @@ export default class Pomodoro {
     this.timerId = setInterval(() => {
       if (!this.minute && !this.second) {
         ++this.intervalCount;
-        this.alram.play();
-        this.selectBreakTime();
         this.$time.dispatchEvent(this.timeEnd);
+        this.alram.play();
+
+        this.selectTime();
         return clearInterval(this.timerId);
       }
 
@@ -62,8 +65,10 @@ export default class Pomodoro {
     }, 1000);
   }
 
-  selectBreakTime() {
-    if (+this.interval === this.intervalCount) {
+  selectTime() {
+    if (timeState.state !== 'pomodoro') {
+      return this.$pomoBtn.dispatchEvent(this.customEvent);
+    } else if (+this.interval === this.intervalCount) {
       this.$longBtn.dispatchEvent(this.customEvent);
       this.intervalCount = 0;
     } else {
