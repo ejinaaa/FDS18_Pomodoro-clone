@@ -4,30 +4,30 @@ import fetchData from './axios/fetch-data';
 
 export default async function () {
   try {
-    const { pomo_time, short_break, long_break } = await fetchData();
-    const curTime =
-      timeState.state === 'pomodoro'
+    const {
+      pomo_time,
+      short_break,
+      long_break,
+      long_interval,
+    } = await fetchData();
+
+    const getNowState = () => {
+      return timeState.state === 'pomodoro'
         ? pomo_time
         : timeState.state === 'short-break'
         ? short_break
         : long_break;
+    };
+    const curTime = getNowState();
 
-    const pomodoro = new Pomodoro(curTime, 0);
+    const pomodoro = new Pomodoro(curTime, 0, long_interval);
+    pomodoro.setTimeText();
+
     const $nav = document.querySelector('.main__btn-group');
-
     $nav.addEventListener('click', (e) => {
-      if (e.target === e.currentTarget) return;
-      if (timeState.state === 'pomodoro') {
-        pomodoro.minute = pomo_time;
-      } else if (timeState.state === 'short-break') {
-        pomodoro.minute = short_break;
-      } else {
-        pomodoro.minute = long_break;
-      }
-      pomodoro.second = 0;
+      pomodoro.minute = getNowState();
       pomodoro.setTimeText();
     });
-    pomodoro.setTimeText();
   } catch (e) {
     console.error(e);
   }
