@@ -29,7 +29,7 @@ pomoDB.insert({
   short_break: '5',
   volume: '50',
   tasks: [
-    { id: 1, content: 'HTML', completed: true, allEst: 1, est: 0, active: false }
+    { id: 1, content: 'HTML', completed: true, allEst: 1, leftEst: 0, active: false }
   ],
 });
 
