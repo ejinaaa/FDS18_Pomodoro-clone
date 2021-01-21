@@ -13,7 +13,7 @@ export default class Pomodoro {
     );
     this.timeEnd = new CustomEvent('timeEnd');
     this.customEvent = new MouseEvent('click', {
-      bubbles: true,
+      bubbles: true
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
@@ -31,7 +31,7 @@ export default class Pomodoro {
 
     // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
     // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
-    this.$nav.onclick = (e) => {
+    this.$nav.onclick = e => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -44,6 +44,7 @@ export default class Pomodoro {
     this.$shortBtn.onclick = () => {};
     this.$pomoBtn.onclick = () => {};
   }
+
   // 타이머를 시작시킨다.
   countDown() {
     if (this.timerId) {
@@ -67,31 +68,36 @@ export default class Pomodoro {
       this.setTimeText();
     }, 1000);
   }
+
   // 상태나 설정된 long-beak-interval에 따라서 어떤 커스텀 이벤트를 발생시킬지 선택한다.
   selectTime() {
     if (timeState.state !== 'pomodoro') {
       return this.$pomoBtn.dispatchEvent(this.customEvent);
-    } else if (+this.interval === this.intervalCount) {
+    }
+    if (+this.interval === this.intervalCount) {
       this.$longBtn.dispatchEvent(this.customEvent);
       this.intervalCount = 0;
     } else {
       this.$shortBtn.dispatchEvent(this.customEvent);
     }
   }
+
   // 스타트 버튼의 텍스트를 변경
   setBtnText() {
     this.$startBtn.textContent = this.$startBtn.matches('.active')
       ? 'STOP'
       : 'START';
   }
+
   // 현재 상태를 변경한다.
   setState(target) {
-    [...this.$nav.children].forEach((child) => {
+    [...this.$nav.children].forEach(child => {
       child.classList.toggle('active', target === child);
     });
 
     timeState.state = target.id;
   }
+
   // 상태에 따라 스타트버튼과 배경색을 변경한다.
   setColor() {
     document.body.style.backgroundColor =
@@ -108,12 +114,14 @@ export default class Pomodoro {
         ? 'rgb(70, 142, 145)'
         : 'rgb(67, 126, 168)';
   }
+
   // 현재 타이머를 랜더링한다.
   setTimeText() {
     this.$time.textContent = `${
       this.minute < 10 ? '0' + this.minute : this.minute
     }:${this.second < 10 ? '0' + this.second : this.second}`;
   }
+
   // 타이머를 셋팅한다.
   setCount() {
     if (!this.second) {
@@ -123,6 +131,7 @@ export default class Pomodoro {
       --this.second;
     }
   }
+
   // 타이머를 멈춘다
   stopTimer() {
     clearInterval(this.timerId);

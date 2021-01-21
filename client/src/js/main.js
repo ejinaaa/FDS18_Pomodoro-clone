@@ -1,10 +1,10 @@
 import task from './task';
-import modalFunc from './header-modal';
+import funcHeaderModal from './modal/header-modal';
 import loadingBar from './loading-bar';
-import { watchUpdate } from './axios/update-settings';
+import { watchUpdate } from './axios/update';
 import render from './render';
 
-modalFunc();
+funcHeaderModal();
 
 watchUpdate();
 

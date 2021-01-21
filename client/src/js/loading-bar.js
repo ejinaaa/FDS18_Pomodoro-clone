@@ -1,64 +1,40 @@
-import fetchData from './axios/fetch-data';
-import timeState from './timeState';
+import { fetchCurTime } from './axios/fetch';
 
 const $startBtn = document.querySelector('.btn-start');
-const $loadingBar = document.querySelector('.loading-bar');
+const $progressBar = document.querySelector('.loading-bar');
 const $clock = document.querySelector('.main__time-set');
 const $nav = document.querySelector('.main__btn-group');
 
-const oneSecLoad = 10;
-let loadingTID = null;
+const progress = 10;
+let progressTimerId = null;
 
-const fetchCurTime = async () => {
-  const {
-    pomo_time: pomoTime,
-    short_break: shortBreak,
-    long_break: longBreak
-  } = await fetchData();
-
-  const curTime =
-    timeState.state === 'pomodoro'
-      ? pomoTime
-      : timeState.state === 'short-break'
-      ? shortBreak
-      : longBreak;
-
-  return curTime;
-};
-
-const setLoadingBar = () => {
-  clearInterval(loadingTID);
-  loadingTID = null;
-  $loadingBar.style.width = '620px';
+const setProgressBar = () => {
+  clearInterval(progressTimerId);
+  progressTimerId = null;
+  $progressBar.style.width = '620px';
 };
 
 export default function () {
   $startBtn.addEventListener('click', async () => {
-    if (loadingTID) {
-      clearInterval(loadingTID);
-      loadingTID = null;
+    if (progressTimerId) {
+      clearInterval(progressTimerId);
+      progressTimerId = null;
       return;
     }
+
     const curTime = await fetchCurTime();
-    loadingTID = setInterval(() => {
-      if ($loadingBar.style.width.length === 5)
-        $loadingBar.style.width = `${
-          +$loadingBar.style.width.substring(0, 3) - oneSecLoad
-        }px`;
-      else if ($loadingBar.style.width.length === 4) {
-        $loadingBar.style.width =
-          +$loadingBar.style.width.substring(0, 2) === 30
-            ? '0px'
-            : `${+$loadingBar.style.width.substring(0, 2) - oneSecLoad}px`;
-      }
+
+    progressTimerId = setInterval(() => {
+      const remainProgress = $progressBar.style.width.substring(
+        0,
+        $progressBar.style.width.length - 2
+      );
+      $progressBar.style.width =
+        remainProgress === 30 ? '0px' : `${remainProgress - progress}px`;
     }, 1000 * curTime);
   });
 
-  $clock.addEventListener('timeEnd', () => {
-    setLoadingBar();
-  });
+  $clock.addEventListener('timeEnd', setProgressBar);
 
-  $nav.addEventListener('click', () => {
-    setLoadingBar();
-  });
+  $nav.addEventListener('click', setProgressBar);
 }
