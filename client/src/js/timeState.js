@@ -7,7 +7,7 @@ const timeState = {
 
   set state(value) {
     this._state = value;
-  },
+  }
 };
 
 export default timeState;

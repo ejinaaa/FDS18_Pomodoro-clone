@@ -13,7 +13,7 @@ export default class Pomodoro {
     );
     this.timeEnd = new CustomEvent('timeEnd');
     this.customEvent = new MouseEvent('click', {
-      bubbles: true,
+      bubbles: true
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
@@ -28,7 +28,7 @@ export default class Pomodoro {
       this.clickAudio.play();
     };
 
-    this.$nav.onclick = (e) => {
+    this.$nav.onclick = e => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -78,7 +78,7 @@ export default class Pomodoro {
   }
 
   setState(target) {
-    [...this.$nav.children].forEach((child) => {
+    [...this.$nav.children].forEach(child => {
       child.classList.toggle('active', target === child);
     });
 

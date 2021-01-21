@@ -20,11 +20,11 @@ export function watchUpdate() {
     }
   }
 
-  $submitBtn.addEventListener('click', (e) => {
+  $submitBtn.addEventListener('click', e => {
     e.preventDefault();
 
     const settings = {};
-    $inputs.forEach((v) => {
+    $inputs.forEach(v => {
       if (v.type === 'checkbox') settings[v.className] = v.checked;
       else settings[v.className] = v.value;
     });
