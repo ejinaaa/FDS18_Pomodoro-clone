@@ -13,8 +13,3 @@ task();
 render();
 
 loadingBar();
-
-const $time = document.querySelector('.main__time-set');
-$time.addEventListener('timeEnd', e => {
-  console.log(e.target);
-});
