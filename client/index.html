@@ -70,7 +70,7 @@
             <option value="">Last</option>
             <option value="">Every</option>
           </select>
-          <input type="number" value="5" class="noti_time"/>
+          <input type="number" value="5" class="noti_time" />
         </div>
         <a href="#" class="settings-modal__cancel-btn">
           <i class="fas fa-times"></i>
@@ -109,73 +109,88 @@
           </ul>
         </div>
       </div>
+      <div class="loading__container">
+        <div class="loading-bar" style="width: 620px"></div>
     </header>
-  <main>
-    <section class="main__container">
-      <nav class="main__navigation">
-        <div class="main__btn-group">
-          <button id="pomodoro" class="active" type="button">
-            Pomodoro
+    <main>
+      <section class="main__container">
+        <nav class="main__navigation">
+          <div class="main__btn-group">
+            <button id="pomodoro" class="active" type="button">Pomodoro</button>
+            <button id="short-break" type="button">Short Break</button>
+            <button id="long-break" type="button">Long Break</button>
+          </div>
+        </nav>
+        <div class="main__time-container">
+          <div class="main__time-set"></div>
+          <button class="btn-start">START</button>
+        </div>
+      </section>
+      <section class="task-container">
+        <div class="task-heading-container">
+          <h3 class="task-heading">Tasks</h3>
+          <button class="remove-completed-tasks-btn">
+            <i class="fas fa-trash-alt"></i>
           </button>
-          <button id="short-break" type="button">Short Break</button>
-          <button id="long-break" type="button">Long Break</button>
         </div>
-      </nav>
-      <div class="main__time-container">
-        <div class="main__time-set"></div>
-        <button class="btn-start">START</button>
-      </div>
-    </section>
-    <section class="task-container">
-      <div class="task-heading-container">
-        <h3 class="task-heading">Tasks</h3>
-        <button class="remove-completed-tasks-btn" title="Clear finishe tasks">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
-      <div class="msg-container">
-        <h3 class="non-active-msg">Time to Work!</h3>
-        <div class="active-task-container">
-          <p class="active-msg">WORKING ON</p>
-          <p class="active-task"></p>
-        </div>
-      </div>
-      <button class="add-task-btn active">
-        <i class="fad fa-plus-circle add-icon"></i>
-        Add Task
-      </button>
-      <div class="add-task-container">
-        <div class="add-task active">
-          <input type="text" class="input-task" placeholder="What are you working on?"/>
-          <div class="set-est-container">
-            <p class="set-est-msg">Est Pomodoros</p>
-            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0"/></label>
-            <button class="increase-btn"><i class="fas fa-caret-up"></i></button>
-            <button class="decrease-btn"><i class="fas fa-caret-down"></i></button>
+        <div class="msg-container">
+          <h3 class="non-active-msg">Time to Work!</h3>
+          <div class="active-task-container">
+            <p class="active-msg">WORKING ON</p>
+            <p class="active-task"></p>
           </div>
         </div>
-        <div class="btn-container">
-          <button class="cancel-btn">Cancel</button>
-          <button class="save-btn">Save</button>
+        <button class="add-task-btn active">
+          <i class="fad fa-plus-circle add-icon"></i>
+          Add Task
+        </button>
+        <div class="add-task-container">
+          <div class="add-task active">
+            <input
+              type="text"
+              class="input-task"
+              placeholder="What are you working on?"
+            />
+            <div class="set-est-container">
+              <p class="set-est-msg">Est Pomodoros</p>
+              <label for="estNum"
+                ><input
+                  type="number"
+                  id="estNum"
+                  class="input-est-num"
+                  value="1"
+                  min="0"
+              /></label>
+              <button class="increase-btn">
+                <i class="fas fa-caret-up"></i>
+              </button>
+              <button class="decrease-btn">
+                <i class="fas fa-caret-down"></i>
+              </button>
+            </div>
+          </div>
+          <div class="btn-container">
+            <button class="cancel-btn">Cancel</button>
+            <button class="save-btn">Save</button>
+          </div>
         </div>
-      </div>
-      <ul class="tasks">
-        <!-- task list -->
-      </ul>
-      <div class="current-progress">
-        <div class="est">
-          Est:
-          <span class="num">0</span>
+        <ul class="tasks">
+          <!-- task list -->
+        </ul>
+        <div class="current-progress">
+          <div class="est">
+            Est:
+            <span class="num">0</span>
+          </div>
+          <div class="act">
+            Act:
+            <span class="num">0</span>
+          </div>
+          <div class="finish-time">
+            Finish at:
+            <span class="num">00:00</span>
+          </div>
         </div>
-        <div class="act">
-          Act:
-          <span class="num">0</span>
-        </div>
-        <div class="finish-time">
-          Finish at:
-          <span class="num">00:00</span>
-        </div>
-      </div>
       </section>
     </main>
     <footer></footer>
