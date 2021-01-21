@@ -28,6 +28,7 @@ export default class Pomodoro {
       this.setBtnText();
       this.clickAudio.play();
     };
+
     // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
     // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
     this.$nav.onclick = (e) => {
@@ -58,7 +59,6 @@ export default class Pomodoro {
         ++this.intervalCount;
         this.$time.dispatchEvent(this.timeEnd);
         this.alram.play();
-
         this.selectTime();
         return clearInterval(this.timerId);
       }
