@@ -51,9 +51,9 @@ export default class Pomodoro {
     this.timerId = setInterval(() => {
       if (!this.minute && !this.second) {
         ++this.intervalCount;
+        this.$time.dispatchEvent(this.timeEnd);
         this.alram.play();
         this.selectBreakTime();
-        this.$time.dispatchEvent(this.timeEnd);
         return clearInterval(this.timerId);
       }
 

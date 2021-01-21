@@ -1,5 +1,6 @@
 import fetchData from './axios/fetch-data';
-import {updateSettings} from './axios/update-settings'
+import {updateSettings} from './axios/update-settings';
+import timerState from './timeState';
 
 // Variables
 const $addTaskBtn = document.querySelector('.add-task-btn');
@@ -18,14 +19,14 @@ const $currentFinishTime = document.querySelector('.current-progress .finish-tim
 const $activeTaskSubject = document.querySelector('.active-task');
 const $saveBtn = document.querySelector('.save-btn');
 const $msgContainer = document.querySelector('.msg-container');
+const $time = document.querySelector('.main__time-set');
+
+let pomodoroTime = 0;
+let shortBreakTime = 0;
+let longBreakTime = 0;
+let longBreakInterval = 0;
 
 export default function task() {
-  let tasks = [];
-  let pomodoroTime = 0;
-  let shortBreakTime = 0;
-  let longBreakTime = 0;
-  let longBreakInterval = 0;
-
   // Functions
   const render = (() => {
     const getTemplate = task => {
@@ -51,7 +52,7 @@ export default function task() {
       
       if (tasks.every(({ active }) => active === false)) $msgContainer.classList.remove('active');
 
-      countCurrentProgress();
+      updateCurrentProgress();
     };
   })();
 
@@ -62,13 +63,14 @@ export default function task() {
         longBreakTime = res.long_break;
         longBreakInterval = res.long_interval;
         
+        updateAct();
         render(res.tasks);
       });
   };
 
-  const countCurrentProgress = () => {
+  const updateCurrentProgress = () => {
     fetchData().then(res => {
-      const currentEst = res.tasks.reduce((acc, { allEst }) => acc + allEst, 0);
+      const currentEst = res.tasks.reduce((acc, { completed, allEst }) => completed ? acc : acc + allEst, 0);
       $currentEst.textContent = currentEst;
 
       const currentTime = new Date();
@@ -81,10 +83,6 @@ export default function task() {
   };
 
   const addTask = (inputTaskValue, inputEstNum) => {
-    const generateId = () => {
-      return Math.max(...tasks.map(task => task.id), 0) + 1;
-    };
-
     fetchData().then(res => {
       const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1
       const tasks = [...res.tasks, {id: generateId, content: inputTaskValue, allEst: inputEstNum, leftEst: 0, completed: false, active: false }];
@@ -94,14 +92,14 @@ export default function task() {
 
   const removeTask = targetId => {
     fetchData().then(res => {
-      const tasks = [...res.tasks.filter(({ id }) => +targetId !== id)];
+      const tasks = res.tasks.filter(({ id }) => +targetId !== id);
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
 
   const toggleTask = targetId => {
     fetchData().then(res => {
-      const tasks = [...res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: +targetId === task.id ? !task.completed : task.completed, active: task.active }))];
+      const tasks = res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: +targetId === task.id ? !task.completed : task.completed, active: task.active }));
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
@@ -115,10 +113,29 @@ export default function task() {
 
   const activateTask = targetId => {
     fetchData().then(res => {
-      const tasks = [...res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: +targetId === task.id }))];
+      const tasks = res.tasks.map(task => ({ id: task.id, content: task.content, allEst: task.allEst, leftEst: task.leftEst, completed: task.completed, active: +targetId === task.id }));
       updateSettings({ "tasks": tasks }).then(() => getTasks());
     });
   };
+
+  const updateLeftEst = () => {
+    fetchData().then(res => {
+      const tasks = res.tasks.map(task => {
+        if (task.active) return { ...task, leftEst: ++task.leftEst }
+        else return task;
+      });
+      updateSettings({ "tasks": tasks }).then(() => getTasks());
+    });
+  };
+
+  const updateAct = () => {
+    fetchData().then(res => {
+      const actNum = res.tasks.reduce((acc, { leftEst }) => {
+        return acc + +leftEst;
+      }, 0);
+      $currentAct.textContent = actNum;
+    })
+  }
 
   // Events
   document.addEventListener('DOMContentLoaded', getTasks)
@@ -168,7 +185,7 @@ export default function task() {
 
   $tasks.addEventListener('click', e => {
     const targetTask = e.target.closest('.task');
-
+    
     if (e.target.matches('.remove-icon')) {
       removeTask(targetTask.id);
     } else if (e.target.matches('.check-icon') || e.target.matches('.checkbox')) {
@@ -182,5 +199,12 @@ export default function task() {
 
   $removeCompletedTasksBtn.addEventListener('click', () => {
     removeCompletedTasks();
+  });
+
+  $time.addEventListener('timeEnd', () => {
+    if (timerState.state !== 'pomodoro') return;
+
+    updateAct();
+    updateLeftEst();
   });
 };
