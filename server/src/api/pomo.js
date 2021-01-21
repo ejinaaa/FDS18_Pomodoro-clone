@@ -18,20 +18,29 @@ const schema = Joi.object({
 });
 
 const router = express.Router();
-pomoDB.insert({
-  auto_start: 'false',
-  dark_mode: 'false',
-  long_break: '15',
-  long_interval: '4',
-  noti_freq: 'Last',
-  noti_time: '5',
-  pomo_time: '25',
-  short_break: '5',
-  volume: '50',
-  tasks: [
-    { id: 1, content: 'HTML', completed: true, allEst: 1, leftEst: 0, active: false }
-  ],
-});
+
+(async () => {
+  const numData = await pomoDB.count({}, { estimate: true });
+
+  if (!numData) {
+    pomoDB.insert({
+      auto_start: 'false',
+      dark_mode: 'false',
+      long_break: '15',
+      long_interval: '4',
+      noti_freq: 'Last',
+      noti_time: '5',
+      pomo_time: '25',
+      short_break: '5',
+      volume: '50',
+      tasks: [
+        {
+          id: 1, content: 'HTML', completed: true, allEst: 1, leftEst: 0, active: false
+        }
+      ],
+    });
+  }
+})();
 
 // READ ALL
 router.get('/', async (req, res, next) => {
