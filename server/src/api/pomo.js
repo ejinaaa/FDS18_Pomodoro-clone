@@ -53,7 +53,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // READ One
-router.get('/get/:id', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const item = await pomoDB.findOne({
