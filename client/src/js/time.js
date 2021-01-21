@@ -1,10 +1,10 @@
 import timeState from './timeState';
 
 export default class Pomodoro {
-  constructor(min, sec, interval) {
+  constructor(min, interval) {
     this.timerId;
     this.minute = min;
-    this.second = sec;
+    this.second = 0;
     this.interval = interval;
     this.intervalCount = 0;
     this.clickAudio = new Audio('./src/media/mouse.wav');
@@ -28,10 +28,10 @@ export default class Pomodoro {
       this.setBtnText();
       this.clickAudio.play();
     };
-    
+
     // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
     // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
-    this.$nav.onclick = (e) => {
+    this.$nav.onclick = e => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -44,11 +44,13 @@ export default class Pomodoro {
     this.$shortBtn.onclick = () => {};
     this.$pomoBtn.onclick = () => {};
   }
+
   // 타이머를 시작시킨다.
   countDown() {
     if (this.timerId) {
-      clearInterval(this.timerId);
-      this.timerId = null;
+      this.stopTimer();
+      // clearInterval(this.timerId);
+      // this.timerId = null;
       return;
     }
 
@@ -67,23 +69,27 @@ export default class Pomodoro {
       this.setTimeText();
     }, 1000);
   }
+
   // 상태나 설정된 long-beak-interval에 따라서 어떤 커스텀 이벤트를 발생시킬지 선택한다.
   selectTime() {
     if (timeState.state !== 'pomodoro') {
       return this.$pomoBtn.dispatchEvent(this.customEvent);
-    } else if (+this.interval === this.intervalCount) {
+    }
+    if (+this.interval === this.intervalCount) {
       this.$longBtn.dispatchEvent(this.customEvent);
       this.intervalCount = 0;
     } else {
       this.$shortBtn.dispatchEvent(this.customEvent);
     }
   }
+
   // 스타트 버튼의 텍스트를 변경
   setBtnText() {
     this.$startBtn.textContent = this.$startBtn.matches('.active')
       ? 'STOP'
       : 'START';
   }
+
   // 현재 상태를 변경한다.
   setState(target) {
     [...this.$nav.children].forEach(child => {
@@ -92,28 +98,28 @@ export default class Pomodoro {
 
     timeState.state = target.id;
   }
+
   // 상태에 따라 스타트버튼과 배경색을 변경한다.
   setColor() {
-    document.body.style.backgroundColor =
+    const nowColor =
       timeState.state === 'pomodoro'
         ? 'rgb(219, 82, 77)'
         : timeState.state === 'short-break'
         ? 'rgb(70, 142, 145)'
         : 'rgb(67, 126, 168)';
 
-    this.$startBtn.style.color =
-      timeState.state === 'pomodoro'
-        ? 'rgb(219, 82, 77)'
-        : timeState.state === 'short-break'
-        ? 'rgb(70, 142, 145)'
-        : 'rgb(67, 126, 168)';
+    document.body.style.backgroundColor = nowColor;
+
+    this.$startBtn.style.color = nowColor;
   }
+
   // 현재 타이머를 랜더링한다.
   setTimeText() {
     this.$time.textContent = `${
       this.minute < 10 ? '0' + this.minute : this.minute
     }:${this.second < 10 ? '0' + this.second : this.second}`;
   }
+
   // 타이머를 셋팅한다.
   setCount() {
     if (!this.second) {
@@ -123,10 +129,11 @@ export default class Pomodoro {
       --this.second;
     }
   }
+
   // 타이머를 멈춘다
   stopTimer() {
     clearInterval(this.timerId);
     this.timerId = null;
-    this.second = 0;
+    //this.second = 0;
   }
 }
