@@ -1,24 +1,33 @@
 import timeState from './timeState';
+
 export default class Pomodoro {
-  constructor(min, sec) {
+  constructor(min, sec, interval) {
     this.timerId;
     this.minute = min;
     this.second = sec;
+    this.interval = interval;
+    this.intervalCount = 0;
     this.clickAudio = new Audio('./src/media/mouse.wav');
+    this.alram = new Audio(
+      'https://t1.daumcdn.net/cfile/tistory/99412B355CF6B93806?original'
+    );
+    this.timeEnd = new CustomEvent('timeEnd');
     this.customEvent = new MouseEvent('click', {
       bubbles: true,
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
     this.$startBtn = document.querySelector('.btn-start');
+    this.$longBtn = document.querySelector('#long-break');
     this.$shortBtn = document.querySelector('#short-break');
+
     this.$startBtn.onclick = () => {
       this.$startBtn.classList.toggle('active');
       this.countDown();
       this.setBtnText();
       this.clickAudio.play();
     };
-    this.$shortBtn.onclick = () => {};
+
     this.$nav.onclick = (e) => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
@@ -26,9 +35,10 @@ export default class Pomodoro {
       this.setState(e.target);
       this.setColor();
       this.stopTimer();
-      this.setTimeText();
     };
-    this.setTimeText();
+
+    this.$longBtn.onclick = () => {};
+    this.$shortBtn.onclick = () => {};
   }
 
   countDown() {
@@ -40,23 +50,29 @@ export default class Pomodoro {
 
     this.timerId = setInterval(() => {
       if (!this.minute && !this.second) {
-        this.$shortBtn.dispatchEvent(this.customEvent);
+        ++this.intervalCount;
+        this.alram.play();
+        this.selectBreakTime();
+        this.$time.dispatchEvent(this.timeEnd);
         return clearInterval(this.timerId);
       }
-      if (!this.second) {
-        --this.minute;
-        this.second = 59;
-      } else {
-        --this.second;
-      }
-      this.$time.innerText = `${
-        this.minute < 10 ? '0' + this.minute : this.minute
-      }:${this.second < 10 ? '0' + this.second : this.second}`;
+
+      this.setCount();
+      this.setTimeText();
     }, 1000);
   }
 
+  selectBreakTime() {
+    if (+this.interval === this.intervalCount) {
+      this.$longBtn.dispatchEvent(this.customEvent);
+      this.intervalCount = 0;
+    } else {
+      this.$shortBtn.dispatchEvent(this.customEvent);
+    }
+  }
+
   setBtnText() {
-    this.$startBtn.innerHTML = this.$startBtn.matches('.active')
+    this.$startBtn.textContent = this.$startBtn.matches('.active')
       ? 'STOP'
       : 'START';
   }
@@ -76,6 +92,7 @@ export default class Pomodoro {
         : timeState.state === 'short-break'
         ? 'rgb(70, 142, 145)'
         : 'rgb(67, 126, 168)';
+
     this.$startBtn.style.color =
       timeState.state === 'pomodoro'
         ? 'rgb(219, 82, 77)'
@@ -90,9 +107,19 @@ export default class Pomodoro {
     }:${this.second < 10 ? '0' + this.second : this.second}`;
   }
 
+  setCount() {
+    if (!this.second) {
+      --this.minute;
+      this.second = 59;
+    } else {
+      --this.second;
+    }
+  }
+
   stopTimer() {
     clearInterval(this.timerId);
     this.timerId = null;
+    this.second = 0;
   }
 }
 
