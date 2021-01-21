@@ -10,7 +10,7 @@ export default async function () {
     // 설정된 시간이 0분이면 1분을 넣어준다.
     const curTime = (await fetchCurTime()) || 1;
 
-    const pomodoro = new Pomodoro(curTime, 0, longInterval);
+    const pomodoro = new Pomodoro(curTime, longInterval);
     // 설정된 시간을 랜더링한다.
     pomodoro.setTimeText();
 
@@ -19,6 +19,7 @@ export default async function () {
       if (e.target === e.currentTarget) return;
       // 네비게이션 버튼이 클릭되면 현재 설정된 시간으로 초기화 되고 초기화 된 시간을 다시 랜더링한다.
       pomodoro.minute = await fetchCurTime();
+      pomodoro.second = 0;
       pomodoro.setTimeText();
     });
   } catch (e) {

@@ -86,11 +86,12 @@ export default function task() {
   };
 
   const updateCurrentProgress = () => {
-    fetchSettings().then(res => {
+    fetchData().then(res => {
       const currentEst = res.tasks.reduce(
         (acc, { completed, allEst }) => (completed ? acc : acc + allEst),
         0
       );
+
       $currentEst.textContent = currentEst;
 
       const currentTime = new Date();
@@ -113,7 +114,7 @@ export default function task() {
   };
 
   const addTask = (inputTaskValue, inputEstNum) => {
-    fetchSettings().then(res => {
+    fetchData().then(res => {
       const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1;
       const tasks = [
         ...res.tasks,
@@ -126,6 +127,7 @@ export default function task() {
           active: false
         }
       ];
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
@@ -133,20 +135,17 @@ export default function task() {
   const removeTask = targetId => {
     fetchSettings().then(res => {
       const tasks = res.tasks.filter(({ id }) => +targetId !== id);
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
 
   const toggleTask = targetId => {
-    fetchSettings().then(res => {
-      const tasks = res.tasks.map(task => ({
-        id: task.id,
-        content: task.content,
-        allEst: task.allEst,
-        leftEst: task.leftEst,
-        completed: +targetId === task.id ? !task.completed : task.completed,
-        active: task.active
-      }));
+    fetchData().then(res => {
+      const tasks = res.tasks.map(task =>
+        +targetId === task.id ? { ...task, completed: !task.completed } : task
+      );
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
@@ -154,39 +153,36 @@ export default function task() {
   const removeCompletedTasks = () => {
     fetchSettings().then(res => {
       const tasks = [...res.tasks.filter(({ completed }) => !completed)];
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
 
   const activateTask = targetId => {
-    fetchSettings().then(res => {
+    fetchData().then(res => {
       const tasks = res.tasks.map(task => ({
-        id: task.id,
-        content: task.content,
-        allEst: task.allEst,
-        leftEst: task.leftEst,
-        completed: task.completed,
+        ...task,
         active: +targetId === task.id
       }));
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
 
   const updateLeftEst = () => {
-    fetchSettings().then(res => {
-      const tasks = res.tasks.map(task => {
-        if (task.active) return { ...task, leftEst: ++task.leftEst };
-        return task;
-      });
+    fetchData().then(res => {
+      const tasks = res.tasks.map(task =>
+        task.active ? { ...task, leftEst: ++task.leftEst } : task
+      );
+
       updateSettings({ tasks }).then(() => getTasks());
     });
   };
 
   const updateAct = () => {
-    fetchSettings().then(res => {
-      const actNum = res.tasks.reduce((acc, { leftEst }) => {
-        return acc + +leftEst;
-      }, 0);
+    fetchData().then(res => {
+      const actNum = res.tasks.reduce((acc, { leftEst }) => acc + +leftEst, 0);
+
       $currentAct.textContent = actNum;
     });
   };
@@ -227,7 +223,6 @@ export default function task() {
       $addTaskContainer.classList.remove('active');
     } else if (e.target.matches('.save-btn') && $inputTask.value) {
       addTask($inputTask.value, +$inputEstNum.value);
-
       $saveBtn.classList.remove('active');
       $inputTask.focus();
     }

@@ -1,10 +1,10 @@
 import timeState from './timeState';
 
 export default class Pomodoro {
-  constructor(min, sec, interval) {
+  constructor(min, interval) {
     this.timerId;
     this.minute = min;
-    this.second = sec;
+    this.second = 0;
     this.interval = interval;
     this.intervalCount = 0;
     this.clickAudio = new Audio('./src/media/mouse.wav');
@@ -48,8 +48,9 @@ export default class Pomodoro {
   // 타이머를 시작시킨다.
   countDown() {
     if (this.timerId) {
-      clearInterval(this.timerId);
-      this.timerId = null;
+      this.stopTimer();
+      // clearInterval(this.timerId);
+      // this.timerId = null;
       return;
     }
 
@@ -100,19 +101,16 @@ export default class Pomodoro {
 
   // 상태에 따라 스타트버튼과 배경색을 변경한다.
   setColor() {
-    document.body.style.backgroundColor =
+    const nowColor =
       timeState.state === 'pomodoro'
         ? 'rgb(219, 82, 77)'
         : timeState.state === 'short-break'
         ? 'rgb(70, 142, 145)'
         : 'rgb(67, 126, 168)';
 
-    this.$startBtn.style.color =
-      timeState.state === 'pomodoro'
-        ? 'rgb(219, 82, 77)'
-        : timeState.state === 'short-break'
-        ? 'rgb(70, 142, 145)'
-        : 'rgb(67, 126, 168)';
+    document.body.style.backgroundColor = nowColor;
+
+    this.$startBtn.style.color = nowColor;
   }
 
   // 현재 타이머를 랜더링한다.
@@ -136,6 +134,6 @@ export default class Pomodoro {
   stopTimer() {
     clearInterval(this.timerId);
     this.timerId = null;
-    this.second = 0;
+    //this.second = 0;
   }
 }
