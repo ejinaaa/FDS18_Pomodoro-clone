@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./dist/css/style.css" rel="stylesheet" />
+    <script defer src="./dist/js/bundle.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="icon" href="./src/media/favicon.ico">
+    <title>뽀모도로 타이머 클론</title>
+  </head>
+<body>
+  <div class="settings-modal__container">
+    <form action="#" method="GET" class="modal-form">
+      <span class="modal-form__heading">TIMER SETTING</span>
+      <div class="modal-form-time__container">
+        <span class="modal-form-time__heading">Time (minutes)</span>
+        <ul class="modal-form-time__list">
+          <li>
+            <div class="time-pomodoro__container">
+              <label for="">Pomodoro</label>
+              <input type="number" value="25" class="pomo_time" />
+            </div>
+          </li>
+          <li>
+            <div class="time-short-break__container">
+              <label for="">Short Break</label>
+              <input type="number" value="5" class="short_break" />
+            </div>
+          </li>
+          <li>
+            <div class="time-long-break__container">
+              <label for="">Long Break</label>
+              <input type="number" value="15" class="long_break" />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-form-auto-start__container">
+        <span class="modal-form-auto-start__heading">
+          Auto start next round?
+        </span>
+        <input type="checkbox" class="auto_start" unchecked />
+      </div>
+      <div class="modal-form-sound-volume__container">
+        <span class="modal-form-sound-volume__heading"> Sound Volume </span>
+        <input type="range" class="volume" />
+      </div>
+      <div class="modal-form-long-interval__container">
+        <span class="modal-form-long-interval__heading">
+          Long Break Interval
+        </span>
+        <input type="number" value="4" class="long_interval" />
+      </div>
+      <div class="modal-form-dark-mode__container">
+        <span class="modal-form-dark-mode-heading">
+          Dark Mode When Running
+        </span>
+        <input type="checkbox" class="dark_mode" />
+      </div>
+      <div class="modal-form-notific__container">
+        <span class="modal-form-notific__heading"> Notification </span>
+        <select name="" id="" class="noti_freq">
+          <option value="">Last</option>
+          <option value="">Every</option>
+        </select>
+        <input type="number" value="5" class="noti_time" />
+      </div>
+      <a href="#" class="settings-modal__cancel-btn">
+        <i class="fas fa-times"></i>
+      </a>
+      <a href="#" class="settings-modal__submit-btn">OK</a>
+    </form>
+  </div>
+  <header>
+    <div class="header__container container">
+      <h1>
+        <a href="./index.html" class="header__homelink">
+          <i class="fas fa-check-circle"></i>
+          pomofocus
+        </a>
+      </h1>
+      <div class="header__nav">
+        <ul class="nav-items">
+          <li>
+            <a href="" class="nav-btn">
+              <i class="far fa-chart-bar"></i>
+              Report
+            </a>
+          </li>
+          <li>
+            <a href="" class="nav-btn nav-settings-btn">
+              <i class="fas fa-cog"></i>
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="" class="nav-btn">
+              <i class="fas fa-user-circle"></i>
+              Login
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="loading__container">
+      <div class="loading-bar" style="width: 620px"></div>
+  </header>
+  <main>
+    <section class="main__container">
+      <nav class="main__navigation">
+        <div class="main__btn-group">
+          <button id="pomodoro" class="active" type="button">Pomodoro</button>
+          <button id="short-break" type="button">Short Break</button>
+          <button id="long-break" type="button">Long Break</button>
+        </div>
+      </nav>
+      <div class="main__time-container">
+        <div class="main__time-set"></div>
+        <button class="btn-start">START</button>
+      </div>
+    </section>
+    <section class="task-container">
+      <div class="task-heading-container">
+        <h3 class="task-heading">Tasks</h3>
+        <button class="remove-completed-tasks-btn">
+          <i class="fas fa-trash-alt"></i>
+          Clear Finished
+        </button>
+      </div>
+      <div class="msg-container">
+        <h3 class="non-active-msg">Time to Work!</h3>
+        <div class="active-task-container">
+          <p class="active-msg">WORKING ON</p>
+          <p class="active-task"></p>
+        </div>
+      </div>
+      <button class="add-task-btn active">
+        <i class="fad fa-plus-circle add-icon"></i>
+        Add Task
+      </button>
+      <div class="add-task-container">
+        <div class="add-task active">
+          <input type="text" class="input-task" placeholder="What are you working on?" />
+          <div class="set-est-container">
+            <p class="set-est-msg">Est Pomodoros</p>
+            <label for="estNum"><input type="number" id="estNum" class="input-est-num" value="1" min="0" /></label>
+            <button class="increase-btn">
+              <i class="fas fa-caret-up"></i>
+            </button>
+            <button class="decrease-btn">
+              <i class="fas fa-caret-down"></i>
+            </button>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button class="cancel-btn">Cancel</button>
+          <button class="save-btn">Save</button>
+        </div>
+      </div>
+      <ul class="tasks">
+        <!-- task list -->
+      </ul>
+      <div class="current-progress">
+        <div class="est">
+          Est:
+          <span class="num">0</span>
+        </div>
+        <div class="act">
+          Act:
+          <span class="num">0</span>
+        </div>
+        <div class="finish-time">
+          Finish at:
+          <span class="num">00:00</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer__container">
+      <h2>Made by</h2>
+      <ul class="developer-list">
+        <li class="eunjin">
+          <a href="https://github.com/ejinaaa" class="name">
+            <i class="fab fa-github"></i>
+            Eunjin Kang</a>
+        </li>
+        <li class="yeongoo">
+          <a href="https://github.com/yg-0103" class="name">
+            <i class="fab fa-github"></i>
+            Yeongoo Kim</a>
+        </li>
+        <li class="hyosung">
+          <a href="https://github.com/hyorard-b" class="name">
+            <i class="fab fa-github"></i>
+            Hyoseong Kim</a>
+        </li>
+      </ul>
+      <span>©Pomotimer 2021. All Rights Reserved</span>
+    </div>
+  </footer>
+</body>
+
+</html>
