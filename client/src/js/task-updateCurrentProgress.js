@@ -21,7 +21,7 @@ export default function updateCurrentProgress () {
     const currentTime = new Date();
     const pomoMinutes =
       pomodoroTime * currentEst +
-      shortBreakTime * (currentEst - 1) +
+      shortBreakTime * (currentEst - 1 < 0 ? 0 : currentEst - 1) +
       (currentEst > longBreakInterval
         ? longBreakTime * Math.floor(currentEst / longBreakInterval)
         : 0);
