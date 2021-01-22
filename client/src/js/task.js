@@ -1,7 +1,7 @@
 import { fetchSettings } from './axios/fetch';
 import { updateSettings } from './axios/update';
 import timerState from './timeState';
-import updateCurrentProgress from './task-updateCurrentProgress'
+import updateCurrentProgress from './update-current-progress';
 
 // DOM
 const $addTaskBtn = document.querySelector('.add-task-btn');
@@ -27,7 +27,9 @@ const $activeTaskSubject = document.querySelector('.active-task');
 const $saveBtn = document.querySelector('.save-btn');
 const $msgContainer = document.querySelector('.msg-container');
 const $time = document.querySelector('.main__time-set');
-const $settingsSubmitBtn = document.querySelector('.settings-modal__submit-btn')
+const $settingsSubmitBtn = document.querySelector(
+  '.settings-modal__submit-btn'
+);
 
 export default function task() {
   // Functions
@@ -64,7 +66,9 @@ export default function task() {
 
       if (tasks.some(task => task.active === true)) {
         $msgContainer.classList.add('active');
-        $activeTaskSubject.textContent = tasks.find(task => task.active).content;
+        $activeTaskSubject.textContent = tasks.find(
+          task => task.active
+        ).content;
       } else {
         $msgContainer.classList.remove('active');
       }

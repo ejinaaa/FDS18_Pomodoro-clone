@@ -21,6 +21,7 @@ export default class Pomodoro {
     this.$longBtn = document.querySelector('#long-break');
     this.$shortBtn = document.querySelector('#short-break');
     this.$pomoBtn = document.querySelector('#pomodoro');
+    this.$submitBtn = document.querySelector('.settings-modal__submit-btn');
     // 시작 버튼이 클릭되면 버튼의 클래스를 토글해주고 타이머를 시작하고 버튼의 텍스트를 바꿔주고 딸깍 오디오를 재생시킨다.
     this.$startBtn.onclick = () => {
       this.$startBtn.classList.toggle('active');
@@ -39,6 +40,13 @@ export default class Pomodoro {
       this.setColor();
       this.stopTimer();
     };
+
+    this.$submitBtn.onclick = e => {
+      this.$startBtn.classList.remove('active');
+      this.stopTimer();
+      this.setBtnText();
+    };
+
     // 커스텀 클릭이벤트 발생시킬 용도
     this.$longBtn.onclick = () => {};
     this.$shortBtn.onclick = () => {};
@@ -134,6 +142,6 @@ export default class Pomodoro {
   stopTimer() {
     clearInterval(this.timerId);
     this.timerId = null;
-    //this.second = 0;
+    // this.second = 0;
   }
 }

@@ -1,6 +1,6 @@
 import { fetchId } from './fetch';
 import render from '../render';
-import updateCurrentProgress from '../task-updateCurrentProgress'
+import updateCurrentProgress from '../update-current-progress';
 
 const axios = require('axios');
 
@@ -21,20 +21,19 @@ export function watchUpdate() {
   const $inputs = [...document.querySelectorAll('.modal-form input')];
   const $select = document.querySelector('.noti_freq');
 
-  $submitBtn.addEventListener('click', e => {
+  $submitBtn.addEventListener('click', async e => {
     e.preventDefault();
 
     const settings = {};
     $inputs.forEach(v => {
-      if (v.type === 'checkbox') settings[v.className] = v.checked;
-      else settings[v.className] = v.value;
+      settings[v.className] = v.type === 'checkbox' ? v.checked : v.value;
     });
     settings[$select.className] = [...$select.options][
       $select.options.selectedIndex
     ].innerText;
-    updateSettings(settings).then(() =>{
-      updateCurrentProgress();
-      render();
-    });
+
+    await updateSettings(settings);
+    updateCurrentProgress();
+    render();
   });
 }
