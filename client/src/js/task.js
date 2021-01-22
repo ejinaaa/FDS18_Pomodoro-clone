@@ -1,6 +1,7 @@
 import { fetchSettings } from './axios/fetch';
 import { updateSettings } from './axios/update';
 import timerState from './timeState';
+import updateCurrentProgress from './task-updateCurrentProgress'
 
 // DOM
 const $addTaskBtn = document.querySelector('.add-task-btn');
@@ -21,21 +22,12 @@ const $increaseEstBtn = document.querySelector(
 const $decreaseEstBtn = document.querySelector(
   '.set-est-container .decrease-btn'
 );
-const $currentEst = document.querySelector('.current-progress .est .num');
 const $currentAct = document.querySelector('.current-progress .act .num');
-const $currentFinishTime = document.querySelector(
-  '.current-progress .finish-time .num'
-);
 const $activeTaskSubject = document.querySelector('.active-task');
 const $saveBtn = document.querySelector('.save-btn');
 const $msgContainer = document.querySelector('.msg-container');
 const $time = document.querySelector('.main__time-set');
 const $settingsSubmitBtn = document.querySelector('.settings-modal__submit-btn')
-
-let pomodoroTime = 0;
-let shortBreakTime = 0;
-let longBreakTime = 0;
-let longBreakInterval = 0;
 
 export default function task() {
   // Functions
@@ -85,39 +77,6 @@ export default function task() {
     fetchSettings().then(res => {
       updateAct();
       render(res.tasks);
-    });
-  };
-
-  const updateCurrentProgress = () => {
-    fetchSettings().then(res => {
-      pomodoroTime = res.pomo_time;
-      shortBreakTime = res.short_break;
-      longBreakTime = res.long_break;
-      longBreakInterval = res.long_interval;
-
-      const currentEst = res.tasks.reduce(
-        (acc, { completed, allEst }) => (completed ? acc : acc + allEst),
-        0
-      );
-
-      $currentEst.textContent = currentEst;
-
-      const currentTime = new Date();
-      const pomoMinutes =
-        pomodoroTime * currentEst +
-        shortBreakTime * (currentEst - 1) +
-        (currentEst > longBreakInterval
-          ? longBreakTime * Math.floor(currentEst / longBreakInterval)
-          : 0);
-      const totalMinutes =
-        currentTime.getHours() * 60 + (currentTime.getMinutes() + pomoMinutes);
-      const totalTime = `${Math.floor(totalMinutes / 60)} : ${
-        ('' + (totalMinutes % 60)).length === 1
-          ? '0' + (totalMinutes % 60)
-          : totalMinutes % 60
-      }`;
-
-      $currentFinishTime.textContent = totalTime;
     });
   };
 

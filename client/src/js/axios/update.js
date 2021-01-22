@@ -1,5 +1,6 @@
 import { fetchId } from './fetch';
 import render from '../render';
+import updateCurrentProgress from '../task-updateCurrentProgress'
 
 const axios = require('axios');
 
@@ -31,6 +32,9 @@ export function watchUpdate() {
     settings[$select.className] = [...$select.options][
       $select.options.selectedIndex
     ].innerText;
-    updateSettings(settings).then(() => render());
+    updateSettings(settings).then(() =>{
+      updateCurrentProgress();
+      render();
+    });
   });
 }
