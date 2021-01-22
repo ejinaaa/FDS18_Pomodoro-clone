@@ -4,6 +4,7 @@ const $startBtn = document.querySelector('.btn-start');
 const $progressBar = document.querySelector('.loading-bar');
 const $clock = document.querySelector('.main__time-set');
 const $nav = document.querySelector('.main__btn-group');
+const $submitBtn = document.querySelector('.settings-modal__submit-btn');
 
 const progress = 10;
 let progressTimerId = null;
@@ -37,4 +38,6 @@ export default function () {
   $clock.addEventListener('timeEnd', setProgressBar);
 
   $nav.addEventListener('click', setProgressBar);
+
+  $submitBtn.addEventListener('click', setProgressBar);
 }
