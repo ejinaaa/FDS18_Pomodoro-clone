@@ -1,0 +1,45 @@
+footer {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-top: 1px solid #fff;
+
+  .footer__container {
+    width: 500px;
+    margin: 0 auto;
+
+    text-align: center;
+
+    h2 {
+      color: #fff;
+
+      font: {
+        size: 20px;
+        weight: 700;
+      }
+    }
+
+    .developer-list {
+      display: flex;
+      color: #fff;
+      margin: 15px 0;
+      justify-content: center;
+
+      li {
+        margin: 0 10px;
+      }
+    }
+
+    span {
+      display: block;
+      width: 250px;
+      font-size: 13px;
+      margin: 30px auto 0;
+      color: #fff;
+    }
+  }
+}
+
+.fa-github {
+  font-size: 30px;
+  margin-right: 10px;
+}
