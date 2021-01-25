@@ -17,7 +17,7 @@ export default function () {
     node.style.display = node.style.display === 'none' ? 'block' : 'none';
   };
 
-  $modalContainer.onclick = e => {
+  $modalContainer.onmousedown = e => {
     turnModal(e, $modalContainer);
   };
 
@@ -30,7 +30,7 @@ export default function () {
   });
 
   // 모달 눌렀을 때 onclick 이벤트 버블링 막기
-  $modalForm.onclick = e => {
+  $modalForm.onmousedown = e => {
     e.stopPropagation();
   };
 }
