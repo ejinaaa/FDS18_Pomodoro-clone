@@ -7,7 +7,7 @@ export default class Pomodoro {
     this.second = 0;
     this.interval = interval;
     this.intervalCount = 0;
-    this.clickAudio = new Audio('./src/media/mouse.wav');
+    this.clickAudio = new Audio('./media/mouse.wav');
     this.alram = new Audio(
       'https://t1.daumcdn.net/cfile/tistory/99412B355CF6B93806?original'
     );

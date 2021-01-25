@@ -4,13 +4,13 @@ import fetch from './axios/fetch';
 export default async function () {
   // 서버에서 설정된 시간들을 가져온다.
   try {
-    const { long_interval } = await fetchSettings();
+    const { longInterval } = await fetch.settings();
     // 상태에 따라 어떤시간을 렌더링할지 정한다.
 
     // 설정된 시간이 0분이면 1분을 넣어준다.
     const curTime = (await fetch.curClockTime()) || 1;
 
-    const pomodoro = new Pomodoro(curTime, long_interval);
+    const pomodoro = new Pomodoro(curTime, longInterval);
     // 설정된 시간을 랜더링한다.
     pomodoro.setTimeText();
 

@@ -2,19 +2,21 @@ import fetch from './axios/fetch';
 
 const $currentEst = document.querySelector('.current-progress .est .num');
 const $currentAct = document.querySelector('.current-progress .act .num');
-const $currentFinishTime = document.querySelector('.current-progress .finish-time .num');
-  
-export default function updateCurrentProgress () {
-  fetchSettings().then(res => {
+const $currentFinishTime = document.querySelector(
+  '.current-progress .finish-time .num'
+);
+
+export default function updateCurrentProgress() {
+  fetch.settings().then(res => {
     const pomoTime = +res.pomo_time;
     const shortBreakTime = +res.short_break;
     const longBreakTime = +res.long_break;
     const longBreakInterval = +res.long_interval;
-    
+
     const currentEst = res.tasks.reduce(
       (acc, { completed, allEst }) => (completed ? acc : acc + allEst),
       0
-      );
+    );
 
     $currentEst.textContent = currentEst;
     const currentTime = new Date();
@@ -35,10 +37,12 @@ export default function updateCurrentProgress () {
       totalShortBreakTimes = currentEst - 1;
     }
 
-    let totalShortBreakMinutes = shortBreakTime * totalShortBreakTimes;
-    let totalLongBreakMinutes = longBreakTime * totalLongBreakTimes;
-    const pomoMinutes = totalPomoMinutes + totalShortBreakMinutes + totalLongBreakMinutes;
-    const totalMinutes = currentTime.getHours() * 60 + (currentTime.getMinutes() + pomoMinutes);
+    const totalShortBreakMinutes = shortBreakTime * totalShortBreakTimes;
+    const totalLongBreakMinutes = longBreakTime * totalLongBreakTimes;
+    const pomoMinutes =
+      totalPomoMinutes + totalShortBreakMinutes + totalLongBreakMinutes;
+    const totalMinutes =
+      currentTime.getHours() * 60 + (currentTime.getMinutes() + pomoMinutes);
     const finishTime = `${Math.floor(totalMinutes / 60)} : ${
       ('' + (totalMinutes % 60)).length === 1
         ? '0' + (totalMinutes % 60)
