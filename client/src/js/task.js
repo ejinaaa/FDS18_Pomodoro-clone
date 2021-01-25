@@ -1,5 +1,5 @@
-import { fetchSettings } from './axios/fetch';
-import { updateSettings } from './axios/update';
+import fetch from './axios/fetch';
+import update from './axios/update';
 import timerState from './timeState';
 import updateCurrentProgress from './update-current-progress';
 
@@ -78,14 +78,14 @@ export default function task() {
   })();
 
   const getTasks = () => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       updateAct();
       render(res.tasks);
     });
   };
 
   const addTask = (inputTaskValue, inputEstNum) => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const generateId = Math.max(...res.tasks.map(task => task.id), 0) + 1;
       const tasks = [
         ...res.tasks,
@@ -99,59 +99,59 @@ export default function task() {
         }
       ];
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const removeTask = targetId => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const tasks = res.tasks.filter(({ id }) => +targetId !== id);
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const toggleTask = targetId => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const tasks = res.tasks.map(task =>
         +targetId === task.id ? { ...task, completed: !task.completed } : task
       );
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const removeCompletedTasks = () => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const tasks = [...res.tasks.filter(({ completed }) => !completed)];
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const activateTask = targetId => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const tasks = res.tasks.map(task => ({
         ...task,
         active: +targetId === task.id
       }));
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const updateLeftEst = () => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const tasks = res.tasks.map(task =>
         task.active ? { ...task, leftEst: ++task.leftEst } : task
       );
 
-      updateSettings({ tasks }).then(() => getTasks());
+      update.settings({ tasks }).then(() => getTasks());
     });
   };
 
   const updateAct = () => {
-    fetchSettings().then(res => {
+    fetch.settings().then(res => {
       const actNum = res.tasks.reduce((acc, { leftEst }) => acc + +leftEst, 0);
 
       $currentAct.textContent = actNum;

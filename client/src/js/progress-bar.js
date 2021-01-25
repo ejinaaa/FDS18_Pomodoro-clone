@@ -1,4 +1,4 @@
-import { fetchCurTime } from './axios/fetch';
+import fetch from './axios/fetch';
 
 const $startBtn = document.querySelector('.btn-start');
 const $progressBar = document.querySelector('.loading-bar');
@@ -23,7 +23,7 @@ export default function () {
       return;
     }
 
-    const curTime = await fetchCurTime();
+    const curTime = await fetch.curClockTime();
 
     progressTimerId = setInterval(() => {
       const remainProgress = $progressBar.style.width.substring(
