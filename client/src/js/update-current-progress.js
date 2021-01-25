@@ -1,4 +1,5 @@
-import { fetchSettings } from './axios/fetch';
+import fetch from './axios/fetch';
+
 const $currentEst = document.querySelector('.current-progress .est .num');
 const $currentAct = document.querySelector('.current-progress .act .num');
 const $currentFinishTime = document.querySelector('.current-progress .finish-time .num');
@@ -46,4 +47,4 @@ export default function updateCurrentProgress () {
 
     $currentFinishTime.textContent = finishTime;
   });
-};
+}
