@@ -1,25 +1,23 @@
 import { fetchSettings } from './axios/fetch';
 const $currentEst = document.querySelector('.current-progress .est .num');
-const $currentFinishTime = document.querySelector(
-  '.current-progress .finish-time .num'
-);
-
+const $currentAct = document.querySelector('.current-progress .act .num');
+const $currentFinishTime = document.querySelector('.current-progress .finish-time .num');
+  
 export default function updateCurrentProgress () {
   fetchSettings().then(res => {
     const pomoTime = +res.pomo_time;
     const shortBreakTime = +res.short_break;
     const longBreakTime = +res.long_break;
     const longBreakInterval = +res.long_interval;
-
+    
     const currentEst = res.tasks.reduce(
       (acc, { completed, allEst }) => (completed ? acc : acc + allEst),
       0
-    );
+      );
 
     $currentEst.textContent = currentEst;
-
-    const currentTime = new Date();    
-    const totalPomoMinutes = pomoTime * currentEst;
+    const currentTime = new Date();
+    const totalPomoMinutes = pomoTime * (currentEst - $currentAct.textContent);
     let totalShortBreakTimes = 0;
     let totalLongBreakTimes = 0;
 
