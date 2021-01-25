@@ -1,5 +1,5 @@
-import Pomodoro from './time';
-import fetch from './axios/fetch';
+import Pomodoro from '../time';
+import fetch from '../axios/fetch';
 
 export default async function () {
   // 서버에서 설정된 시간들을 가져온다.

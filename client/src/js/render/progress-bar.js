@@ -1,4 +1,4 @@
-import fetch from './axios/fetch';
+import fetch from '../axios/fetch';
 
 const $startBtn = document.querySelector('.btn-start');
 const $progressBar = document.querySelector('.loading-bar');

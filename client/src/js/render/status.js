@@ -1,4 +1,4 @@
-import fetch from './axios/fetch';
+import fetch from '../axios/fetch';
 
 const $currentEst = document.querySelector('.current-progress .est .num');
 const $currentAct = document.querySelector('.current-progress .act .num');

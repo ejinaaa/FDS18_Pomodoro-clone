@@ -1,6 +1,6 @@
 import fetch from './fetch';
-import render from '../render';
-import updateCurrentProgress from '../update-current-progress';
+import render from '../render/clock';
+import updateCurrentProgress from '../render/status';
 
 const axios = require('axios');
 
