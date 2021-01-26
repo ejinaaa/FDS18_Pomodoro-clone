@@ -47,34 +47,34 @@
 ```json
 
 {
-    "_id": "60093f5a1b9f17653cd61611",
-    "auto_start": false,
-    "dark_mode": false,
-    "long_break": "15",
-    "long_interval": "4",
-    "noti_freq": "Last",
-    "noti_time": "5",
-    "pomo_time": "1",
-    "short_break": "5",
-    "volume": "50",
-    "tasks": [
-      {
-        "id": 1,
-        "content": "Hello World",
-        "allEst": 1,
-        "leftEst": 0,
-        "completed": false,
-        "active": false
-      },
-      {
-        "id": 2,
-        "content": "Bye World",
-        "allEst": 1,
-        "leftEst": 0,
-        "completed": false,
-        "active": false
-      }
-    ]
-  }
+  "_id": "60093f5a1b9f17653cd61611",
+  "auto_start": false,
+  "dark_mode": false,
+  "long_break": "15",
+  "long_interval": "4",
+  "noti_freq": "Last",
+  "noti_time": "5",
+  "pomo_time": "1",
+  "short_break": "5",
+  "volume": "50",
+  "tasks": [
+    {
+      "id": 1,
+      "content": "Hello World",
+      "allEst": 1,
+      "leftEst": 0,
+      "completed": false,
+      "active": false
+    },
+    {
+      "id": 2,
+      "content": "Bye World",
+      "allEst": 1,
+      "leftEst": 0,
+      "completed": false,
+      "active": false
+    }
+  ]
+}
 
 ```
