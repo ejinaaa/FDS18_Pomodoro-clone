@@ -35,8 +35,13 @@ const router = express.Router();
       volume: '50',
       tasks: [
         {
-          id: 1, content: 'HTML', completed: true, allEst: 1, leftEst: 0, active: false
-        }
+          id: 1,
+          content: 'HTML',
+          completed: true,
+          allEst: 1,
+          leftEst: 0,
+          active: false,
+        },
       ],
     });
   }
@@ -87,11 +92,14 @@ router.put('/:id', async (req, res, next) => {
       _id: id,
     });
     if (!item) return next();
-    await pomoDB.update({
-      _id: id,
-    }, {
-      $set: value,
-    });
+    await pomoDB.update(
+      {
+        _id: id,
+      },
+      {
+        $set: value,
+      }
+    );
     res.json(value);
   } catch (error) {
     next(error);
@@ -103,7 +111,7 @@ router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await pomoDB.remove({
-      _id: id
+      _id: id,
     });
     res.json({
       message: 'Success',

@@ -32,7 +32,7 @@ export default function () {
       );
       $progressBar.style.width =
         remainProgress === 30 ? '0px' : `${remainProgress - progress}px`;
-    }, 1000 * curTime);
+    }, 300 * curTime);
   });
 
   $clock.addEventListener('timeEnd', setProgressBar);

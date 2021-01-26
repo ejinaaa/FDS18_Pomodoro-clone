@@ -1,19 +1,20 @@
 import timeState from './timeState';
 
 export default class Pomodoro {
-  constructor(min, interval) {
+  constructor(min, interval, auto) {
     this.timerId;
     this.minute = min;
     this.second = 0;
     this.interval = interval;
     this.intervalCount = 0;
+    this.auto = auto;
     this.clickAudio = new Audio('./media/mouse.wav');
     this.alram = new Audio(
       'https://t1.daumcdn.net/cfile/tistory/99412B355CF6B93806?original'
     );
     this.timeEnd = new CustomEvent('timeEnd');
     this.customEvent = new MouseEvent('click', {
-      bubbles: true
+      bubbles: true,
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
@@ -32,7 +33,7 @@ export default class Pomodoro {
 
     // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
     // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
-    this.$nav.onclick = e => {
+    this.$nav.onclick = (e) => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -41,16 +42,16 @@ export default class Pomodoro {
       this.stopTimer();
     };
 
-    this.$submitBtn.onclick = e => {
+    this.$submitBtn.onclick = (e) => {
       this.$startBtn.classList.remove('active');
       this.stopTimer();
       this.setBtnText();
     };
 
     // 커스텀 클릭이벤트 발생시킬 용도
-    this.$longBtn.onclick = () => {};
-    this.$shortBtn.onclick = () => {};
-    this.$pomoBtn.onclick = () => {};
+    //this.$longBtn.onclick = () => {};
+    //this.$shortBtn.onclick = () => {};
+    //this.$pomoBtn.onclick = () => {};
   }
 
   // 타이머를 시작시킨다.
@@ -66,22 +67,25 @@ export default class Pomodoro {
       // 0분 0초가 되면 커스텀 이벤트를 발생시키고,
       // pomodoro, short-break, long-break 중 어느 상태로 변경해야 하는지 설정하고 타이머를 멈춘다
       if (!this.minute && !this.second) {
-        ++this.intervalCount;
         this.$time.dispatchEvent(this.timeEnd);
         this.alram.play();
         this.selectTime();
-        return clearInterval(this.timerId);
+        clearInterval(this.timerId);
+        if (this.auto) this.$startBtn.dispatchEvent(this.customEvent);
+      } else {
+        this.setCount();
+        this.setTimeText();
       }
-
-      this.setCount();
-      this.setTimeText();
-    }, 1000);
+    }, 300);
   }
 
   // 상태나 설정된 long-beak-interval에 따라서 어떤 커스텀 이벤트를 발생시킬지 선택한다.
   selectTime() {
     if (timeState.state !== 'pomodoro') {
       return this.$pomoBtn.dispatchEvent(this.customEvent);
+    }
+    if (timeState.state === 'pomodoro') {
+      ++this.intervalCount;
     }
     if (+this.interval === this.intervalCount) {
       this.$longBtn.dispatchEvent(this.customEvent);
@@ -100,7 +104,7 @@ export default class Pomodoro {
 
   // 현재 상태를 변경한다.
   setState(target) {
-    [...this.$nav.children].forEach(child => {
+    [...this.$nav.children].forEach((child) => {
       child.classList.toggle('active', target === child);
     });
 
