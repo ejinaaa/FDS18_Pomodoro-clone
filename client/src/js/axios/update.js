@@ -1,6 +1,4 @@
 import fetch from './fetch';
-import render from '../render/clock';
-import updateCurrentProgress from '../render/status';
 
 const axios = require('axios');
 
@@ -15,26 +13,5 @@ export default {
     } catch (error) {
       console.error(error);
     }
-  },
-  watchUpdate() {
-    const $submitBtn = document.querySelector('.settings-modal__submit-btn');
-    const $inputs = [...document.querySelectorAll('.modal-form input')];
-    const $select = document.querySelector('.noti_freq');
-
-    $submitBtn.addEventListener('click', async e => {
-      e.preventDefault();
-
-      const settings = {};
-      $inputs.forEach(v => {
-        settings[v.className] = v.type === 'checkbox' ? v.checked : v.value;
-      });
-      settings[$select.className] = [...$select.options][
-        $select.options.selectedIndex
-      ].innerText;
-
-      await this.settings(settings);
-      updateCurrentProgress();
-      render();
-    });
   }
 };
