@@ -7,7 +7,7 @@ const $currentFinishTime = document.querySelector(
 );
 
 export default function updateCurrentProgress() {
-  fetch.settings().then(res => {
+  fetch.settings().then((res) => {
     const pomoTime = +res.pomo_time;
     const shortBreakTime = +res.short_break;
     const longBreakTime = +res.long_break;
@@ -27,11 +27,10 @@ export default function updateCurrentProgress() {
     if (currentEst > longBreakInterval) {
       if (Math.floor(currentEst / longBreakInterval)) {
         totalLongBreakTimes = Math.floor(currentEst / longBreakInterval);
-        totalShortBreakTimes = currentEst - 1 - totalLongBreakTimes;
         if (!(currentEst % longBreakInterval)) {
           totalLongBreakTimes = Math.floor(currentEst / longBreakInterval) - 1;
-          totalShortBreakTimes = currentEst - 1 - totalLongBreakTimes;
         }
+        totalShortBreakTimes = currentEst - 1 - totalLongBreakTimes;
       }
     } else {
       totalShortBreakTimes = currentEst - 1;
