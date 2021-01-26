@@ -42,12 +42,12 @@
   - 자동 시작 설정
   - 인터벌 설정
 
-## Todo Object
+## Data Format
 
 ```json
 
 {
-  "_id": "60093f5a1b9f17653cd61611",
+  "_id": "###",
   "auto_start": false,
   "dark_mode": false,
   "long_break": "15",
