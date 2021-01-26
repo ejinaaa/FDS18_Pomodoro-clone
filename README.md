@@ -1,7 +1,5 @@
 ## Team
 
----
-
 |강은진|김연구|김효성|
 |---|---|---|
 |[ejinaaa](https://github.com/ejinaaa)|[yg-0103](https://github.com/yg-0103)|[hyorard-b](https://github.com/hyorard-b)|
@@ -9,26 +7,18 @@
 
 ## Preview
 
----
-
 ![사이트 프리뷰](./assets/preview.PNG)
 
 ## Technology Stack
-
----
 
 ![기술 스택](./assets/stack.PNG)
 
 ## Architecture
 
----
-
 ![프로젝트 내부 구조](./assets/prjDiagram.PNG)
 
 
 ## Introduction
-
----
 
 [Focus To-do 뽀모도로 기법 사이트](https://pomofocus.io/) 클론 코딩 소스 코드 저장소입니다.
 
