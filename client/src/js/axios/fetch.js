@@ -1,4 +1,4 @@
-import timeState from '../timeState';
+import timeState from '../common/timeState';
 
 const axios = require('axios');
 

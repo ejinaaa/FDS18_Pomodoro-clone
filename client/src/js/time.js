@@ -1,4 +1,4 @@
-import timeState from './timeState';
+import timeState from './common/timeState';
 
 export default class Pomodoro {
   constructor(min, interval, auto) {
@@ -14,7 +14,7 @@ export default class Pomodoro {
     );
     this.timeEnd = new CustomEvent('timeEnd');
     this.customEvent = new MouseEvent('click', {
-      bubbles: true,
+      bubbles: true
     });
     this.$nav = document.querySelector('.main__btn-group');
     this.$time = document.querySelector('.main__time-set');
@@ -33,7 +33,7 @@ export default class Pomodoro {
 
     // 네비게이션 버튼이 클릭되면 버튼의 클래스 엑티브를 제거해주고 버튼의 텍스트를 다시 셋팅해주고
     // 현재의 상태를 변경해주고 배경색과 버튼색을 변경해주고 타이머를 멈춘다.
-    this.$nav.onclick = (e) => {
+    this.$nav.onclick = e => {
       if (e.target === e.currentTarget) return;
       this.$startBtn.classList.remove('active');
       this.setBtnText();
@@ -42,16 +42,16 @@ export default class Pomodoro {
       this.stopTimer();
     };
 
-    this.$submitBtn.onclick = (e) => {
+    this.$submitBtn.onclick = e => {
       this.$startBtn.classList.remove('active');
       this.stopTimer();
       this.setBtnText();
     };
 
     // 커스텀 클릭이벤트 발생시킬 용도
-    //this.$longBtn.onclick = () => {};
-    //this.$shortBtn.onclick = () => {};
-    //this.$pomoBtn.onclick = () => {};
+    // this.$longBtn.onclick = () => {};
+    // this.$shortBtn.onclick = () => {};
+    // this.$pomoBtn.onclick = () => {};
   }
 
   // 타이머를 시작시킨다.
@@ -104,7 +104,7 @@ export default class Pomodoro {
 
   // 현재 상태를 변경한다.
   setState(target) {
-    [...this.$nav.children].forEach((child) => {
+    [...this.$nav.children].forEach(child => {
       child.classList.toggle('active', target === child);
     });
 

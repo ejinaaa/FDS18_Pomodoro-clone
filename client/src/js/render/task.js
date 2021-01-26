@@ -1,7 +1,7 @@
-import fetch from './axios/fetch';
-import update from './axios/update';
-import timerState from './timeState';
-import updateCurrentProgress from './render/status';
+import fetch from '../axios/fetch';
+import update from '../axios/update';
+import timerState from '../common/timeState';
+import updateCurrentProgress from './status';
 
 // DOM
 const $addTaskBtn = document.querySelector('.add-task-btn');
