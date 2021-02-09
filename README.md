@@ -4,6 +4,9 @@
 |---|---|---|
 |[ejinaaa](https://github.com/ejinaaa)|[yg-0103](https://github.com/yg-0103)|[hyorard-b](https://github.com/hyorard-b)|
 
+## Demo
+
+![데모](./assets/demo.gif)
 
 ## Preview
 
